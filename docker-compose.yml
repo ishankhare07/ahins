@@ -1,0 +1,35 @@
+version: '3.1'
+services:
+    db:
+        image: postgres
+        environment:
+            - POSTGRES_PASSWORD=example
+        ports:
+            - 5432:5432
+        volumes:
+            - ./db/config:/etc/postgresql
+            - ./db/log:/var/log/postgresql
+            - ./db/databases:/var/lib/postgresql
+        networks:
+            django-postgres:
+                aliases:
+                    - postgres
+    django:
+        build:
+            context: ./code
+            dockerfile: Dockerfile
+        working_dir: /code
+        command: python your_project/manage.py runserver 0.0.0.0:8000
+        #on production env
+        #command: gunicorn -c gunicorn_config.py your_project.wsgi:application
+        depends_on:
+            - db
+        volumes:
+            - ./code:/code
+        networks:
+            - django-postgres
+        ports:
+            - 8000:8000
+
+networks:
+    django-postgres:
