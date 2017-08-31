@@ -7,5 +7,5 @@ python:
 services:
   - docker
 
-before_install:
+scripts:
   - docker-compose -p ishankhare07/django-postgres-docker-cluster/ build .
