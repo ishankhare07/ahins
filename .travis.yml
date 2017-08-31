@@ -9,6 +9,7 @@ services:
 
 before_install:
   - docker-compose -p ishankhare07/django-postgres-docker-cluster build
+  - chmod +x test.sh
 
 script:
   - ./test.sh
