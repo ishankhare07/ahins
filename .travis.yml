@@ -1,7 +1,12 @@
 sudo: required
 
+language: python
+python:
+  - "3.6"
+
 services:
   - docker
 
-scripts:
+before_install:
+  - ls
   - docker-compose -p ishankhare07/django-postgres-docker-cluster/ build .
