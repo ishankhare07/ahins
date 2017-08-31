@@ -9,4 +9,4 @@ services:
 
 before_install:
   - ls -al
-  - docker-compose -p ishankhare07/django-postgres-docker-cluster/ build .
+  - docker-compose -p ishankhare07/django-postgres-docker-cluster build 
