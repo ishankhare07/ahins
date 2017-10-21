@@ -19,7 +19,7 @@ services:
             context: ./code
             dockerfile: Dockerfile
         working_dir: /code
-        command: python your_project/manage.py runserver 0.0.0.0:8000
+        command: python mysite/manage.py runserver 0.0.0.0:80
         #on production env
         #command: gunicorn -c gunicorn_config.py your_project.wsgi:application
         depends_on:
@@ -29,7 +29,7 @@ services:
         networks:
             - django-postgres
         ports:
-            - 8000:8000
+            - 80:80
 
 networks:
     django-postgres:
