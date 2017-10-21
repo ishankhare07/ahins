@@ -20,6 +20,8 @@ services:
             dockerfile: Dockerfile
         working_dir: /code
         command: python mysite/manage.py runserver 0.0.0.0:80
+        environment:
+            - IS_CONTAINER=true
         #on production env
         #command: gunicorn -c gunicorn_config.py your_project.wsgi:application
         depends_on:
