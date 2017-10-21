@@ -77,7 +77,7 @@ if os.environ.get('IS_CONTAINER'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'postgres',
+            'NAME': 'ahins',
             'USER': 'postgres',
             'PASSWORD': 'example',
             'HOST': 'postgres',
@@ -88,7 +88,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'postgres',
+            'NAME': 'ahins',
             'USER': 'postgres',
             'PASSWORD': 'example',
             'HOST': 'localhost',
@@ -121,7 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
