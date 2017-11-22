@@ -25,7 +25,7 @@ SECRET_KEY = 'kakgd+$h@dhhg)xz@@hs#7ua^dq36ijk1@z*8q&=44f78onain'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['35.188.215.192', 'localhost']
+ALLOWED_HOSTS = ['35.188.215.192', 'ishankhare.com', 'www.ishankhare.com']
 
 
 # Application definition
