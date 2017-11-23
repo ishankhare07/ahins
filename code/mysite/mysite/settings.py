@@ -78,7 +78,7 @@ if os.environ.get('IS_CONTAINER'):
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'ahins',
-            'USER': 'postgres',
+            'USER': 'ahins',
             'PASSWORD': 'example',
             'HOST': 'postgres',
             'PORT': 5432
