@@ -2,6 +2,7 @@ version: '3.1'
 services:
     db:
         image: postgres
+        container_name: ahins-pg
         environment:
             - POSTGRES_PASSWORD=example
         ports:
@@ -18,7 +19,11 @@ services:
         build:
             context: ./code
             dockerfile: Dockerfile
+        image: registry.gitlab.com/ishankhare07/ahins:v0.0.1.prod
+        container_name: ahins-prod
         working_dir: /code/mysite
+        environment:
+            - IS_CONTAINER=True
         #command: python mysite/manage.py runserver 0.0.0.0:80
         #on production env
         command: gunicorn -c gunicorn_config.py mysite.wsgi:application
@@ -30,6 +35,27 @@ services:
             - django-postgres
         ports:
             - 80:80
+    django-dev:
+        build:
+            context: ./code
+            dockerfile: Dockerfile
+        image: registry.gitlab.com/ishankhare07/ahins:v0.0.1.dev
+        container_name: ahins-dev
+        working_dir: /code/mysite
+        environment:
+            - IS_CONTAINER=True
+            - IS_DEV_ENV=True
+        #command: gunicorn -c gunicorn_config.py mysite.wsgi:application
+        command: python manage.py runserver 0.0.0.0:80
+        depends_on:
+            - db
+        volumes:
+            - ./code:/code
+        networks:
+            - django-postgres
+        ports:
+            - 80:80
+
 
 networks:
     django-postgres:

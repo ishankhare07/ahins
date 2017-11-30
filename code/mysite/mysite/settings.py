@@ -22,10 +22,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'kakgd+$h@dhhg)xz@@hs#7ua^dq36ijk1@z*8q&=44f78onain'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['35.188.215.192', 'ishankhare.com', 'www.ishankhare.com']
+if os.environ.get('IS_DEV_ENV'):
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = True
+    ALLOWED_HOSTS = ['localhost']
+else:
+    DEBUG = False
+    ALLOWED_HOSTS = ['35.188.215.192', 'ishankhare.com', 'www.ishankhare.com']
 
 
 # Application definition
@@ -89,7 +92,7 @@ else:
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'ahins',
-            'USER': 'postgres',
+            'USER': 'ahins',
             'PASSWORD': 'example',
             'HOST': 'localhost',
             'PORT': 5432
