@@ -1,5 +1,1 @@
-$(document).ready(() => {
-	$("#navToggle").sideNav();
-
-	
-})
+/home/ishan/code/ahins/code/mysite/static/js/home.js
