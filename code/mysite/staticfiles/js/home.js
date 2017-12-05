@@ -1,0 +1,5 @@
+$(document).ready(() => {
+	$("#navToggle").sideNav();
+
+	
+})
