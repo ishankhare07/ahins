@@ -1,5 +1,3 @@
-$(document).ready(() => {
+window.onload = () => {
 	$("#navToggle").sideNav();
-
-	
-})
+}
