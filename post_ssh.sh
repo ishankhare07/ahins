@@ -5,4 +5,4 @@ cd blog; docker-compose stop; cd $HOME;
 sudo rm -rf blog; mv blog1 blog;
 cd blog; docker-compose up -d django
 echo "Trying to run django migrate";
-docker exec -it ahins-prod /bin/bash -c "python3 manage.py migrate; yes yes | python3 manage.py collectstatic -l"
+docker exec -it ahins-prod /bin/bash -c "python3 manage.py migrate;echo running collectstatic; yes yes | python3 manage.py collectstatic -l"
