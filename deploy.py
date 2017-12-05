@@ -7,7 +7,7 @@ result.wait()
 print('archive successfully created')
 
 print('transfering tarball to the server')
-scp = subprocess.Popen(['gcloud compute scp ' + 'deployment.tar.gz' + ' ishan@blog:~/'], shell=True)
+scp = subprocess.Popen(['gcloud compute scp ' + 'deployment.tar.gz post_ssh.sh' + ' ishan@blog:~/'], shell=True)
 scp.wait()
 print('tarbal transfer complete')
 
