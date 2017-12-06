@@ -31,7 +31,8 @@
         <div class="background">
           <img src="http://placehold.it/300x200">
         </div>
-        <a href="#"><img class="circle" src="http://placehold.it/100x100"></a>
+        {% load static %}
+        <a href="#"><img class="img-responsive profile-pic circle" src="{% static "images/profile_pic.jpg" %}"></a>
         <a href="#"><span class="white-text name">Ishan Khare</span></a>
         <a href="#"><span class="white-text email">ishankhare07@gmail.com</span></a>
       </div>
