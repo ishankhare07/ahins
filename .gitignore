@@ -1,7 +1,6 @@
 
 # Created by https://www.gitignore.io/api/python,vim,docker
 
-#!! ERROR: docker is undefined. Use list command to see defined gitignore types !!#
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -117,4 +116,5 @@ Session.vim
 # auto-generated tag files
 tags
 
-# End of https://www.gitignore.io/api/python,vim,docker
+# End of https://www.gitignore.io/api/python,vim
+deployment.tar.gz
