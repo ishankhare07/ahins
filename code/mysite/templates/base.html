@@ -29,15 +29,16 @@
     <li>
       <div class="user-view">
         <div class="background">
-          <img src="http://placehold.it/300x200">
+          {% load static %}
+          <img class="img-responsive bg-image" src="{% static "images/bg-1.jpg" %}">
         </div>
         {% load static %}
         <a href="#"><img class="img-responsive profile-pic circle" src="{% static "images/profile_pic.jpg" %}"></a>
         <a href="#"><span class="white-text name">Ishan Khare</span></a>
-        <a href="#"><span class="white-text email">ishankhare07@gmail.com</span></a>
+        <a href="mailto:ishankhare07@gmail.com"><span class="white-text email">ishankhare07@gmail.com</span></a>
       </div>
     </li>
-    <li><a href="#"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+    <li><a href="/"><i class="material-icons">home</i>Home</a></li>
     <li><a href="#">Second Link</a></li>
     <li>
       <div class="divider"></div>
