@@ -1,5 +1,33 @@
 version: '3.1'
 services:
+    nginx-dev:
+        image: nginx
+        container_name: ahins-nginx-dev
+        ports:
+            - 80:80
+        volumes:
+            - ./code/mysite/static:/resources/static
+            - ./nginx/dev.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - django-dev
+        networks:
+            ahins:
+                aliases:
+                    - nginxdev
+    nginx-prod:
+        image: nginx
+        container_name: ahins-nginx-prod
+        ports:
+            - 80:80
+        volumes:
+            - ./code/mysite/static:/resources/static
+            - ./nginx/prod.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - django
+        networks:
+            ahins:
+                aliases:
+                    - nginxprod
     db:
         image: postgres
         container_name: ahins-pg
@@ -12,7 +40,7 @@ services:
             - ./db/log:/var/log/postgresql
             - ./db/databases:/var/lib/postgresql
         networks:
-            django-postgres:
+            ahins:
                 aliases:
                     - postgres
     django:
@@ -32,9 +60,11 @@ services:
         volumes:
             - ./code:/code
         networks:
-            - django-postgres
-        ports:
-            - 80:80
+            ahins:
+                aliases:
+                    - djangoprod
+        # ports:
+        #    - 80:80
     django-dev:
         build:
             context: ./code
@@ -52,10 +82,12 @@ services:
         volumes:
             - ./code:/code
         networks:
-            - django-postgres
-        ports:
-            - 80:80
+            ahins:
+                aliases:
+                    - djangodev
+        #ports:
+        #    - 80:80
 
 
 networks:
-    django-postgres:
+    ahins:

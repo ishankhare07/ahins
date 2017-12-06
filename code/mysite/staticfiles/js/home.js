@@ -1,1 +1,0 @@
-/home/ishan/code/ahins/code/mysite/static/js/home.js
