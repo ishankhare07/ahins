@@ -18,4 +18,4 @@ docker-compose pull
 echo "bringing up cluster"
 docker-compose up -d nginx-prod
 echo "Trying to run django migrate"
-docker exec -it ahins-prod /bin/bash -c "python3 manage.py migrate;echo running collectstatic; yes yes | python3 manage.py collectstatic -l"
+docker exec -it ahins-prod /bin/bash -c "python3 manage.py migrate"
