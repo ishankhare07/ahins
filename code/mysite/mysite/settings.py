@@ -34,6 +34,7 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
+#    'core.apps.CoreConfig',
     'blog.apps.BlogConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -73,6 +74,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
+#AUTH_USER_MODEL = 'core.User'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
