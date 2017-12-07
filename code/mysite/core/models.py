@@ -12,6 +12,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     lastname = models.CharField(_('lastname'), max_length=30)
     date_joined = models.DateTimeField(_('date_joined'), auto_now_add=True)
     is_active = models.BooleanField(_('active'), default=True)
+    is_admin = models.BooleanField(_('staff'), default=False)
 
     objects = UserManager()
 
@@ -30,4 +31,13 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def email_user(self, subject, message, from_email=None, **kwargs):
         send_mail(subject, message, from_email, [self.email], **kwargs)
-        
+    
+    @property
+    def is_staff(self):
+        return self.is_admin
+
+    def has_perm(self, perm, obj=None):
+        return True
+
+    def has_module_perms(self, app_label):
+        return True
