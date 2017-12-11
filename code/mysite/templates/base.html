@@ -6,20 +6,22 @@
 <head>
   <title>{% block title %}{% endblock %}</title>
   {% include "assets.html" %}
+  {% block extra_assets %}
+  {% endblock %}
 </head>
 
 <body>
   <div class="navbar-fixed">
     <nav class="">
       <div class="nav-wrapper blue darken-2">
-        <a href="#!" class="brand-logo center">
+        <a href="/" class="brand-logo center">
           Ishan Khare
         </a>
         <ul class="left">
           <li id="navToggle" data-activates="slide-out"><a href="#"><i class="material-icons">menu</i></a></li>
         </ul>
         <ul class="right">
-          <li><a href="#"><i class="material-icons">account_circle</i></a></li>
+          <li><a href="/login"><i class="material-icons">account_circle</i></a></li>
         </ul>
       </div>
     </nav>
@@ -47,7 +49,9 @@
     <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
   </ul>
 
-  {% block content %} {% endblock %}
+  <div class="container">
+    {% block content %} {% endblock %}
+  </div>
 </body>
 
 {% include "scripts.html" %}

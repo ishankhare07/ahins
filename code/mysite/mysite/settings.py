@@ -55,6 +55,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'mysite.urls'
+#LOGIN_URL = 'core.views.sign_in'
 
 TEMPLATES = [
     {
