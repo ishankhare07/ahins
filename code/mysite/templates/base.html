@@ -6,24 +6,67 @@
 <head>
   <title>{% block title %}{% endblock %}</title>
   {% include "assets.html" %}
+  {% block extra_assets %}
+  {% endblock %}
 </head>
 
 <body>
   <div class="navbar-fixed">
     <nav class="">
       <div class="nav-wrapper blue darken-2">
-        <a href="#!" class="brand-logo center">
+        <a href="/" class="brand-logo center">
           Ishan Khare
         </a>
         <ul class="left">
           <li id="navToggle" data-activates="slide-out"><a href="#"><i class="material-icons">menu</i></a></li>
         </ul>
         <ul class="right">
-          <li><a href="#"><i class="material-icons">account_circle</i></a></li>
+          {% if user.is_authenticated %}
+            <li>
+              <a id="settings_dropdown_button"
+                  class="dropdown-button"
+                  data-activates="settings_dropdown"
+                  data-beloworigin="true"
+                  data-constrainWidth="false" href="#">
+                <i class="material-icons">settings</i>
+              </a>
+            </li>
+
+            <ul id="settings_dropdown" class="dropdown-content">
+              <li>
+                <a href="#">
+                  <i class="material-icons">account_circle</i>Profile
+                </a>
+              </li>
+              <li class="divider"></li>
+              <li>
+                <a href="{% url 'logout' %}">
+                  <i class="material-icons">exit_to_app</i>Logout
+                </a>
+              </li>
+            </ul>
+          {% else %}
+          <li>
+            <a href="{% url 'login' %}">
+              <i class="material-icons">account_circle</i>
+            </a>
+          </li>
+          {% endif %}
         </ul>
       </div>
     </nav>
   </div>
+
+  <!-- <div class="fixed-action-btn">
+    <a class="btn-floating btn-large">
+      <i class="material-icons">account_circle</i>
+    </a>
+    <ul>
+      <li>
+        <a class="btn-floating"><i class="material-icons">exit_to_app</i></a>
+      </li>
+    </ul>
+  </div> -->
 
   <ul id="slide-out" class="side-nav">
     <li>
@@ -47,7 +90,9 @@
     <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
   </ul>
 
-  {% block content %} {% endblock %}
+  <div class="container">
+    {% block content %} {% endblock %}
+  </div>
 </body>
 
 {% include "scripts.html" %}
