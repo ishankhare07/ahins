@@ -9,3 +9,7 @@
   object-fit: cover;
   object-position: top;
 }
+
+body {
+  background-color: lavender;
+}

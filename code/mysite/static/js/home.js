@@ -1,5 +1,9 @@
 window.onload = () => {
 	$("#navToggle").sideNav();
+	$("#settings_dropdown_button").dropdown({
+		belowOrigin: true,
+		constrainWidth: false,
+	});
 }
 
 // window.onload = function()
