@@ -55,7 +55,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'mysite.urls'
-#LOGIN_URL = 'core.views.sign_in'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login'
 
 TEMPLATES = [
     {
