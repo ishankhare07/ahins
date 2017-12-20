@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block extra_assets %}
+  {{ block.super }}
+  {% load static %}
+  <script type="text/javascript" src="{% static "js/compose.js" %}"></script>
+{% endblock %}
+
+{% block compose_bar %}
+  {% if user.is_authenticated %}
+    <div class="fixed-action-btn">
+      <form method="post" action="/compose/new/">
+        {% csrf_token %}
+        <input name="type" value="new_blog_post" class="hide" />
+        <button type="submit"
+            class="btn-floating btn-large red tooltipped"
+            data-position="top"
+            data-tooltip="Create new">
+          <i class="material-icons large">add</i>
+        </button>
+      </form>
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {{ block.super }}
+  <div class="container">
+    {% for post in object_list %}
+      <div class="row">
+        <div class="col offset-m2 m8 offset-s1 s10">
+          <div class="card">
+            <div class="card-image">
+              <img src="http://placehold.it/500x200" />
+              <div class="card-title">
+                {{ post.title }}
+              </div>
+              <a class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-position="top" data-tooltip="Edit"><i class="material-icons">edit</i></a>
+            </div>
+            <div class="card-content">
+                {{ post.summary }}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
