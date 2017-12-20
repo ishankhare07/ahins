@@ -4,6 +4,16 @@
   {{ title }}
 {% endblock %}
 
-{% block content %}
+{% block compose_bar %}
+  {% if user.is_authenticated %}
+    <div class="fixed-action-btn">
+      <a href="/compose" class="btn-floating btn-large red">
+        <i class="material-icons large">mode_edit</i>
+      </a>
+    </div>
+  {% endif %}
+{% endblock %}
 
+{% block content %}
+  {{ block.super }}
 {% endblock %}
