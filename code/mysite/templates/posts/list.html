@@ -32,14 +32,18 @@
   <div class="container">
     {% for post in object_list %}
       <div class="row">
-        <div class="col offset-m2 m8 offset-s1 s10">
+        <div class="col offset-m2 m8 s12">
           <div class="card">
             <div class="card-image">
               <img src="http://placehold.it/500x200" />
               <div class="card-title">
                 {{ post.title }}
               </div>
-              <a class="btn-floating halfway-fab waves-effect waves-light red tooltipped" data-position="top" data-tooltip="Edit"><i class="material-icons">edit</i></a>
+              <a href="/compose/{{ post.id }}/"
+                  class="btn-floating halfway-fab waves-effect waves-light red tooltipped"
+                  data-position="top"
+                  data-tooltip="Edit">
+                  <i class="material-icons">edit</i></a>
             </div>
             <div class="card-content">
                 {{ post.summary }}
