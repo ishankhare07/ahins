@@ -29,7 +29,7 @@ services:
                 aliases:
                     - nginxprod
     db:
-        image: postgres:9.6.6
+        image: postgres:10.1
         container_name: ahins-pg
         environment:
             - POSTGRES_PASSWORD=example
