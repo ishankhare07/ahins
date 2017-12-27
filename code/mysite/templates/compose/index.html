@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block extra_assets %}
+  {{ block.super }}
+  {% load static %}
+  <script type="text/javascript" src="{% static "js/compose.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col s12 m8 offset-m2">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-title">
+            Write in markdown
+          </div>
+          <div class="divider"></div>
+          <div class="row">
+            <ul id="tabs" class="tabs">
+              <li class="tab col s3 m3">
+                <a href="#write">Write</a>
+              </li>
+              <li class="tab col s3 m3">
+                <a href="#preview">Preview</a>
+              </li>
+            </ul>
+          </div>
+          <div id="write" class="row">
+            <div class="col s12 m12 input-field">
+              <i class="material-icons prefix">mode_edit</i>
+              <textarea rows="5" class="materialize-textarea" id="markdown-content" type="text"></textarea>
+              <label>Type here</label>
+            </div>
+            <div class="right">
+              <button onclick="parseMd()" class="btn waves-effect waves-light blue darken-1">Parse</button>
+            </div>
+          </div>
+
+          <div id="preview" class="row">
+            <div id="md-preview" class="col s12 m12">
+              some preview here
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

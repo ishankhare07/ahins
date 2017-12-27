@@ -13,52 +13,53 @@
 
 {% block content %}
 
-  <div class="row valign-wrapper">
-    <div class="col m6 s12 offset-m3">
-      <div class="card">
-        <div class="card-content">
-          {% if user.is_authenticated %}
-            <div class="row">
-              <div class="col s12 m12 card-title">
-                <h4>You have successfully logged in</h4>
-              </div>
-            </div>
-          {% else %}
-            <div class="row">
-              <div class="col s12 m12 card-title">
-                <h4 class="">Login or Signup</h4>
-              </div>
-            </div>
-            <div class="row">
-              {% for error in form.non_field_errors %}
-                {{ error }}
-              {% endfor %}
-              <div class="divider"></div>
-            </div>
-            <form id="loginForm" action="/login/" method="post">
-              {% csrf_token %}
+  <div class="container">
+    <div class="row valign-wrapper">
+      <div class="col m6 s12 offset-m3">
+        <div class="card">
+          <div class="card-content">
+            {% if user.is_authenticated %}
               <div class="row">
-                <div class="col s12 m12 input-field">
-                  <input type="email" class="validate" name="username" required>
-                  <label>Email</label>
+                <div class="col s12 m12 card-title">
+                  <h4>You have successfully logged in</h4>
+                </div>
+              </div>
+            {% else %}
+              <div class="row">
+                <div class="col s12 m12 card-title">
+                  <h4 class="">Login or Signup</h4>
                 </div>
               </div>
               <div class="row">
-                <div class="col s12 m12 input-field">
-                  <input type="password" class="validate" name="password" required>
-                  <label>Password</label>
-                </div>
+                {% for error in form.non_field_errors %}
+                  {{ error }}
+                {% endfor %}
+                <div class="divider"></div>
               </div>
-            </form>
-        </div>
-          <div class="card-action right-align">
-            <button onclick="verifyAndLogin()" class="btn waves-effect waves-light blue darken-1">
-              Login
-            </button>
+              <form id="loginForm" action="/login/?next={{next}}" method="post">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col s12 m12 input-field">
+                    <input type="email" class="validate" name="username" required>
+                    <label>Email</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col s12 m12 input-field">
+                    <input type="password" class="validate" name="password" required>
+                    <label>Password</label>
+                  </div>
+                </div>
+              </form>
           </div>
-        {% endif %}
+            <div class="card-action right-align">
+              <button onclick="verifyAndLogin()" class="btn waves-effect waves-light blue darken-1">
+                Login
+              </button>
+            </div>
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>
-
 {% endblock %}

@@ -34,8 +34,8 @@
 
             <ul id="settings_dropdown" class="dropdown-content">
               <li>
-                <a href="#">
-                  <i class="material-icons">account_circle</i>Profile
+                <a href="/posts/list/">
+                  <i class="material-icons">list</i>Blog Posts
                 </a>
               </li>
               <li class="divider"></li>
@@ -56,17 +56,6 @@
       </div>
     </nav>
   </div>
-
-  <!-- <div class="fixed-action-btn">
-    <a class="btn-floating btn-large">
-      <i class="material-icons">account_circle</i>
-    </a>
-    <ul>
-      <li>
-        <a class="btn-floating"><i class="material-icons">exit_to_app</i></a>
-      </li>
-    </ul>
-  </div> -->
 
   <ul id="slide-out" class="side-nav">
     <li>
@@ -90,9 +79,13 @@
     <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
   </ul>
 
-  <div class="container">
-    {% block content %} {% endblock %}
-  </div>
+  {% block compose_bar %}
+
+  {% endblock %}
+
+  {% block content %}
+
+  {% endblock %}
 </body>
 
 {% include "scripts.html" %}
