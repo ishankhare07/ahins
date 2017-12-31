@@ -1,7 +1,7 @@
 version: '3.1'
 services:
     nginx-dev:
-        image: nginx
+        image: nginx:1.13.7
         container_name: ahins-nginx-dev
         ports:
             - 80:80
@@ -15,7 +15,7 @@ services:
                 aliases:
                     - nginxdev
     nginx-prod:
-        image: nginx
+        image: nginx:1.13.7
         container_name: ahins-nginx-prod
         ports:
             - 80:80
@@ -29,7 +29,7 @@ services:
                 aliases:
                     - nginxprod
     db:
-        image: postgres
+        image: postgres:10.1
         container_name: ahins-pg
         environment:
             - POSTGRES_PASSWORD=example
