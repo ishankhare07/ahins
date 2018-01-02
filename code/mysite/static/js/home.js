@@ -4,6 +4,10 @@ window.onload = () => {
 		belowOrigin: true,
 		constrainWidth: false,
 	});
+
+	$('#tabs.tabs').tabs();
+	window.composeState = new CurrentState();
+	console.log('composeState created');
 }
 
 // window.onload = function()
