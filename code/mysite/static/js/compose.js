@@ -65,3 +65,7 @@ function autosaveBlob(event, type) {
     composeState.update(blob, type);
   }
 }
+
+function reloadNewPreview(element) {
+  element.contentWindow.location.reload();
+}

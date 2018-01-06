@@ -44,9 +44,8 @@
           </div>
 
           <div id="preview" class="row">
-            <div id="md-preview" class="col s12 m12">
-              some preview here
-            </div>
+            <iframe src="/compose/{{ id }}/preview" id="md-preview" onShow="reloadNewPreview(this)" class="col s12 m12">
+            </iframe>
           </div>
         </div>
       </div>

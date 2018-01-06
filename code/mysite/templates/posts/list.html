@@ -4,12 +4,6 @@
   {{ title }}
 {% endblock %}
 
-{% block extra_assets %}
-  {{ block.super }}
-  {% load static %}
-  <script type="text/javascript" src="{% static "js/compose.js" %}"></script>
-{% endblock %}
-
 {% block compose_bar %}
   {% if user.is_authenticated %}
     <div class="fixed-action-btn">

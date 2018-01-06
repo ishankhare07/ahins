@@ -5,19 +5,16 @@ window.onload = () => {
 		constrainWidth: false,
 	});
 
-	$('#tabs.tabs').tabs();
-	window.composeState = new CurrentState();
-	console.log('composeState created');
-}
+	$('#tabs.tabs').tabs({
+		onShow: (t) => {
+			if (t[0].id === 'preview') {
+				$('#md-preview')[0].contentWindow.location.reload();
+			}
+		}
+	});
 
-// window.onload = function()
-// {
-//     if (window.jQuery)
-//     {
-//         alert('jQuery is loaded');
-//     }
-//     else
-//     {
-//         alert('jQuery is not loaded');
-//     }
-// }
+	if (typeof CurrentState !== 'undefined') {
+		// instantiate current state if the class is available
+		window.composeState = new CurrentState();
+	}
+}
