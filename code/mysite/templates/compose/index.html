@@ -31,9 +31,12 @@
           </div>
           <div id="write" class="row">
             <div class="col s12 m12 input-field">
-              <i class="material-icons prefix">mode_edit</i>
-              <textarea rows="5" class="materialize-textarea" id="markdown-content" type="text"></textarea>
-              <label>Type here</label>
+              <textarea class="materialize-textarea" id="markdown-title" onkeyup="autosaveBlob(this, 'title')" onchange="autosaveBlob(this, 'title')" type="text">{{ title }}</textarea>
+              <label>Title</label>
+            </div>
+            <div class="col s12 m12 input-field">
+              <textarea rows="5" class="materialize-textarea" id="markdown-content" onkeyup="autosaveBlob(this, 'content')" onchange="autosaveBlob(this, 'content')" type="text">{{ content }}</textarea>
+              <label>Content</label>
             </div>
             <div class="right">
               <button onclick="parseMd()" class="btn waves-effect waves-light blue darken-1">Parse</button>
@@ -41,9 +44,8 @@
           </div>
 
           <div id="preview" class="row">
-            <div id="md-preview" class="col s12 m12">
-              some preview here
-            </div>
+            <iframe src="/compose/{{ id }}/preview" id="md-preview" onShow="reloadNewPreview(this)" class="col s12 m12">
+            </iframe>
           </div>
         </div>
       </div>

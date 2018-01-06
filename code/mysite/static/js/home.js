@@ -4,16 +4,17 @@ window.onload = () => {
 		belowOrigin: true,
 		constrainWidth: false,
 	});
-}
 
-// window.onload = function()
-// {
-//     if (window.jQuery)
-//     {
-//         alert('jQuery is loaded');
-//     }
-//     else
-//     {
-//         alert('jQuery is not loaded');
-//     }
-// }
+	$('#tabs.tabs').tabs({
+		onShow: (t) => {
+			if (t[0].id === 'preview') {
+				$('#md-preview')[0].contentWindow.location.reload();
+			}
+		}
+	});
+
+	if (typeof CurrentState !== 'undefined') {
+		// instantiate current state if the class is available
+		window.composeState = new CurrentState();
+	}
+}
