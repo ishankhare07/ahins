@@ -17,4 +17,10 @@ window.onload = () => {
 		// instantiate current state if the class is available
 		window.composeState = new CurrentState();
 	}
+
+	// set textarea height
+	if ($('#markdown-content')) {
+		var ta = $('#markdown-content')[0];
+		ta.style.height = ta.scrollHeight + 'px';
+	}
 }

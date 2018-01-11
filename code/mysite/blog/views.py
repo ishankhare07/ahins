@@ -1,4 +1,5 @@
 import json
+import mistune
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views import View
@@ -9,6 +10,9 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework.views import APIView
 from blog.serializers import BlogPostSerializer
 from blog.models import BlogPost
+from pygments import highlight
+from pygments.lexers import get_lexer_by_name
+from pygments.formatters import html
 
 # Create your views here.
 
@@ -37,11 +41,23 @@ class ComposeView(View):
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)
 
+class HighlightRenderer(mistune.Renderer):
+    def block_code(self, code, lang):
+        if not lang:
+            return '\n<pre><code>{0}</code></pre>\n'.format(mistune.escape(code))
+        lexer = get_lexer_by_name(lang)
+        formatter = html.HtmlFormatter(cssclass='ahins')
+        return highlight(code, lexer, formatter)
+
+
 @method_decorator(login_required, name='dispatch')
-class PreviewView(APIView):
+class PreviewView(View):
     def get(self, request, post_id):
         bp = BlogPost.objects.get(id=post_id)
-        return HttpResponse([bp.title, bp.content])
+        renderer = HighlightRenderer()
+        markdownParser = mistune.Markdown(renderer=renderer)
+        md = markdownParser(bp.content)
+        return render(request, 'compose/preview.html', {'content': md})
 
 @method_decorator(login_required, name='dispatch')
 class ComposeNewBlogPost(View):
