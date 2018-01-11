@@ -13,3 +13,7 @@
 body {
   background-color: lavender;
 }
+
+.top-align-icons {
+  vertical-align: top;
+}
