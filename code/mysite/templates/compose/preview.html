@@ -1,0 +1,10 @@
+{% block extra_assets %}
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/styles.css" %}">
+{% endblock %}
+
+{% block content %}
+  {% autoescape off %}
+    {{ content }}
+  {% endautoescape %}
+{% endblock %}

@@ -8,6 +8,7 @@
   {{ block.super }}
   {% load static %}
   <script type="text/javascript" src="{% static "js/compose.js" %}"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js" type="text/javascript"></script> -->
 {% endblock %}
 
 {% block content %}
@@ -16,9 +17,27 @@
       <div class="card">
         <div class="card-content">
           <div class="card-title">
-            Write in markdown
+            <div class="row">
+              <div class="left">
+                Write in markdown
+              </div>
+              <div class="right">
+                  <div id="saving-loader" class="preloader-wrapper small">
+                    <div class="spinner-layer spinner-blue-only">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div><div class="gap-patch">
+                        <div class="circle"></div>
+                      </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <a id="saved-icon" class="tooltipped" data-position="bottom" data-tooltip="All changes saved"><i class="material-icons top-align-icons icon-blue">cloud_done</i></a>
+              </div>
+            </div>
           </div>
-          <div class="divider"></div>
+          <!-- <div class="divider"></div> -->
           <div class="row">
             <ul id="tabs" class="tabs">
               <li class="tab col s3 m3">
@@ -35,7 +54,7 @@
               <label>Title</label>
             </div>
             <div class="col s12 m12 input-field">
-              <textarea rows="5" class="materialize-textarea" id="markdown-content" onkeyup="autosaveBlob(this, 'content')" onchange="autosaveBlob(this, 'content')" type="text">{{ content }}</textarea>
+              <textarea class="materialize-textarea" id="markdown-content" onkeyup="autosaveBlob(this, 'content')" onchange="autosaveBlob(this, 'content')" type="text">{{ content }}</textarea>
               <label>Content</label>
             </div>
             <div class="right">
@@ -44,7 +63,11 @@
           </div>
 
           <div id="preview" class="row">
-            <iframe src="/compose/{{ id }}/preview" id="md-preview" onShow="reloadNewPreview(this)" class="col s12 m12">
+            <iframe src="/compose/{{ id }}/preview"
+                  id="md-preview"
+                  onShow="reloadNewPreview(this)"
+                  onload="resizeIFrame(this)"
+                  class="col s12 m12">
             </iframe>
           </div>
         </div>

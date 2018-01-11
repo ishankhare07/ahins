@@ -17,7 +17,7 @@ class CurrentState {
 
   getCookie(name) {
     return document.cookie.split(';')
-    .filter((kvPair) => new RegExp(name, 'g').test(kvPair))[0]
+    .filter((kvPair) => new RegExp(name, 'g').test(kvPair))[0]  // we can write a blogpost about it
     .split('=')[1]
   }
 
@@ -33,19 +33,25 @@ class CurrentState {
       }),
       success: (response) => {
         console.log(response)
-        console.log('successfully saved');
+        $('#saving-loader').removeClass('active');
+        $('#saved-icon').removeClass('hide');
+        Materialize.toast('Saved successfully', 3000);
       }
     })
   }
 
   update(newBlob, type) {
+    // show loading sign
+    $('#saving-loader').addClass('active');
+    $('#saved-icon').addClass('hide');
+
     if (type === 'title') {
       this.title = newBlob;
       if (this.updateTitleTimeout) {
         clearTimeout(this.updateTitleTimeout)
       }
       this.updateTitleTimeout = setTimeout(() => {
-        this.updateFieldWithAjax(this.title, 'title')
+        this.updateFieldWithAjax(this.title, 'title');
       }, this.timeToAjax);
     } else if (type === 'content') {
       this.content = newBlob
@@ -64,6 +70,11 @@ function autosaveBlob(event, type) {
   if (composeState.isChanged(blob, type)) {
     composeState.update(blob, type);
   }
+}
+
+function resizeIFrame(element) {
+  console.log('resizing iframe');
+  element.style.height = element.contentWindow.document.body.scrollHeight + 'px';
 }
 
 function reloadNewPreview(element) {
