@@ -80,3 +80,21 @@ function resizeIFrame(element) {
 function reloadNewPreview(element) {
   element.contentWindow.location.reload();
 }
+
+function toggleFilesTab(event) {
+  var compose_card_element = $('#compose-card');
+  var files_card_element = $('#files-card');
+  if (event.checked) {
+    compose_card_element.removeClass('offset-m2');
+    compose_card_element.removeClass('m8');
+    files_card_element.removeClass('hide');
+    compose_card_element.addClass('offset-m1');
+    compose_card_element.addClass('m7');
+  } else {
+    compose_card_element.addClass('offset-m2');
+    compose_card_element.addClass('m8');
+    files_card_element.addClass('hide');
+    compose_card_element.removeClass('offset-m1');
+    compose_card_element.removeClass('m7');
+  }
+}

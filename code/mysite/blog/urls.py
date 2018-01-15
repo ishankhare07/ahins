@@ -6,5 +6,6 @@ urlpatterns = [
     url(r'^compose/(?P<post_id>\d+)/$', views.ComposeView.as_view()),
     url(r'^compose/(?P<post_id>\d+)/preview/$', views.PreviewView.as_view()),
     url(r'^posts/list/$', views.PostsList.as_view()),
-    url(r'^compose/new/$', views.ComposeNewBlogPost.as_view())
+    url(r'^compose/new/$', views.ComposeNewBlogPost.as_view()),
+    url(r'^upload/images/(?P<pk>\d+)/$', views.ImageUploadView.as_view())
         ]

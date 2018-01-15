@@ -19,7 +19,7 @@ window.onload = () => {
 	}
 
 	// set textarea height
-	if ($('#markdown-content')) {
+	if ($('#markdown-content') === true) {
 		var ta = $('#markdown-content')[0];
 		ta.style.height = ta.scrollHeight + 'px';
 	}

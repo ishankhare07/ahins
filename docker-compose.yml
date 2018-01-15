@@ -82,7 +82,7 @@ services:
             - db
         volumes:
             - ./code:/code
-            - ./media:/media
+            - ./media:/code/mysite/media
         networks:
             ahins:
                 aliases:
