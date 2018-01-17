@@ -21,6 +21,14 @@ def index(request):
     return render(request, 'index.html', {'title': 'Home'})
 
 
+class ImageList(generics.ListCreateAPIView):
+    serializer_class = ImagesUploadSerializer
+
+    def get_queryset(self):
+        post_id = self.kwargs.get('post_id')
+        return Images.objects.all().filter(post_id=post_id)
+
+
 class ImageUploadView(generics.RetrieveUpdateAPIView):
     queryset = Images.objects.all()
     serializer_class = ImagesUploadSerializer

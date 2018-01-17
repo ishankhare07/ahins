@@ -33,22 +33,9 @@
                       </div>
                     </div>
                   </div>
-                  <a id="saved-icon" class="tooltipped" data-position="bottom" data-tooltip="All changes saved"><i class="material-icons top-align-icons icon-blue">cloud_done</i></a>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col m6">
-              <div class="left">
-                Show files tab
-              </div>
-              <div class="right">
-                <span class="switch">
-                  <label>
-                    <input id="files-tab-state" onchange="toggleFilesTab(this)" type="checkbox"/>
-                    <span class="lever"></span>
-                  </label>
-                </span>
+                  <a id="saved-icon" class="tooltipped" data-position="bottom" data-tooltip="All changes saved">
+                    <i class="material-icons top-align-icons icon-blue">cloud_done</i>
+                  </a>
               </div>
             </div>
           </div>
@@ -88,13 +75,7 @@
         </div>
       </div>
     </div>
-    <!-- <div id="files-card" class="col m3 hide">
-      <div class="card">
-        <div class="card-content">
-          <div class="card-title">
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
+
+  {% include "compose/file_upload.html" %}
 {% endblock %}
