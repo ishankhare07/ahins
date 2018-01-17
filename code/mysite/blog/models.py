@@ -1,5 +1,4 @@
 from django.db import models
-from core.models import User
 
 
 class BlogPost(models.Model):
@@ -10,3 +9,18 @@ class BlogPost(models.Model):
     last_modified = models.DateTimeField(auto_now=True, blank=False, null=False)
     content = models.TextField(blank=True, null=True)
     summary = models.CharField(max_length=200, blank=True, null=True)
+
+    def __str__(self):
+        return '{0} {1}'.format(self.id, self.title)
+
+
+class Images(models.Model):
+    post_id = models.ForeignKey('blog.BlogPost', on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    image = models.ImageField(upload_to='images/')             # this will require Pillow
+
+    def __str__(self):
+        return '{0} {1}'.format(self.id, self.name)
+
+    class Meta:
+        verbose_name = 'Image'

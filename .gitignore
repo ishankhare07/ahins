@@ -117,4 +117,7 @@ Session.vim
 tags
 
 # End of https://www.gitignore.io/api/python,vim
+
+
 deployment.tar.gz
+media/

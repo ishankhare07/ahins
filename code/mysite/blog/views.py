@@ -7,9 +7,10 @@ from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
-from rest_framework.views import APIView
-from blog.serializers import BlogPostSerializer
-from blog.models import BlogPost
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from blog.serializers import BlogPostSerializer, ImagesUploadSerializer
+from blog.models import BlogPost, Images
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import html
@@ -18,6 +19,19 @@ from pygments.formatters import html
 
 def index(request):
     return render(request, 'index.html', {'title': 'Home'})
+
+
+class ImageList(generics.ListCreateAPIView):
+    serializer_class = ImagesUploadSerializer
+
+    def get_queryset(self):
+        post_id = self.kwargs.get('post_id')
+        return Images.objects.all().filter(post_id=post_id)
+
+
+class ImageUploadView(generics.RetrieveUpdateAPIView):
+    queryset = Images.objects.all()
+    serializer_class = ImagesUploadSerializer
 
 
 @method_decorator(login_required, name='dispatch')

@@ -13,7 +13,7 @@
 
 {% block content %}
   <div class="row">
-    <div class="col s12 m8 offset-m2">
+    <div id="compose-card" class="col s12 m8 offset-m2">
       <div class="card">
         <div class="card-content">
           <div class="card-title">
@@ -33,11 +33,13 @@
                       </div>
                     </div>
                   </div>
-                  <a id="saved-icon" class="tooltipped" data-position="bottom" data-tooltip="All changes saved"><i class="material-icons top-align-icons icon-blue">cloud_done</i></a>
+                  <a id="saved-icon" class="tooltipped" data-position="bottom" data-tooltip="All changes saved">
+                    <i class="material-icons top-align-icons icon-blue">cloud_done</i>
+                  </a>
               </div>
             </div>
           </div>
-          <!-- <div class="divider"></div> -->
+          <div class="divider"></div>
           <div class="row">
             <ul id="tabs" class="tabs">
               <li class="tab col s3 m3">
@@ -74,4 +76,6 @@
       </div>
     </div>
   </div>
+
+  {% include "compose/file_upload.html" %}
 {% endblock %}
