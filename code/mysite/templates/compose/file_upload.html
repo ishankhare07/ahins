@@ -1,0 +1,36 @@
+<div class="fixed-action-btn">
+  <a href="#file-bottom-sheet" class="btn-floating btn-large modal-trigger tooltipped" data-tooltip="Attach/upload image" data-position="top">
+    <i class="material-icons">attach_file</i>
+  </a>
+</div>
+
+<div id="file-bottom-sheet" class="modal bottom-sheet">
+  <div class="modal-content">
+    <h4>Files linked to this post</h4>
+    <ul class="collection with-header">
+      <li class="collection-header">
+        <div id="file-upload-form" class="row">
+          <div class="file-field input-field col m9 s8 offset-m1">
+            <div class="btn">
+              <span><i class="material-icons">insert_drive_file</i></span>
+              <input id="file-field" type="file">
+            </div>
+            <div class="file-path-wrapper">
+              <input class="file-path validate" type="text" placeholder="Upload another file">
+            </div>
+          </div>
+          <div class="input-field col m1 s2 center-align">
+            <button
+              onclick="uploadFile()"
+              class="btn tooltipped"
+              data-tooltip="Upload files"
+              data-position="top">
+                <i class="material-icons">file_upload</i>
+              </button>
+          </div>
+        </div>
+      </li>
+      <div id="file-list"></div>
+    </ul>
+  </div>
+</div>
