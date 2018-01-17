@@ -22,6 +22,7 @@ services:
             - 80:80
         volumes:
             - ./code/mysite/static:/resources/static
+            - ~/media:/resources/media
             - ./nginx/prod.conf:/etc/nginx/conf.d/default.conf
         depends_on:
             - django
@@ -53,19 +54,16 @@ services:
         working_dir: /code/mysite
         environment:
             - IS_CONTAINER=True
-        #command: python mysite/manage.py runserver 0.0.0.0:80
-        #on production env
         command: gunicorn -c gunicorn_config.py mysite.wsgi:application
         depends_on:
             - db
         volumes:
             - ./code:/code
+            - ~/media:/code/mysite/media
         networks:
             ahins:
                 aliases:
                     - djangoprod
-        # ports:
-        #    - 80:80
     django-dev:
         build:
             context: ./code
@@ -76,7 +74,6 @@ services:
         environment:
             - IS_CONTAINER=True
             - IS_DEV_ENV=True
-        #command: gunicorn -c gunicorn_config.py mysite.wsgi:application
         command: python manage.py runserver 0.0.0.0:80
         depends_on:
             - db
@@ -87,9 +84,6 @@ services:
             ahins:
                 aliases:
                     - djangodev
-        #ports:
-        #    - 80:80
-
 
 networks:
     ahins:
