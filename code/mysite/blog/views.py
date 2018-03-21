@@ -55,7 +55,13 @@ class ComposeView(View):
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)
 
-class HighlightRenderer(mistune.Renderer):
+class MarkdownRenderer(mistune.Renderer):
+    """
+        This custom renderer overrides the default behavior for code blocks
+        and for images (with future support for other media types like video).
+        Images will be given a css class for making them responsive.
+    """
+
     def block_code(self, code, lang):
         if not lang:
             return '\n<pre><code>{0}</code></pre>\n'.format(mistune.escape(code))
@@ -63,12 +69,15 @@ class HighlightRenderer(mistune.Renderer):
         formatter = html.HtmlFormatter(cssclass='ahins')
         return highlight(code, lexer, formatter)
 
+    def image(self, src, title, text):
+        return '<img src={0} class="responsive-img" title="{1}" alt="{2}">'.format(src, title, text)
+
 
 @method_decorator(login_required, name='dispatch')
 class PreviewView(View):
     def get(self, request, post_id):
         bp = BlogPost.objects.get(id=post_id)
-        renderer = HighlightRenderer()
+        renderer = MarkdownRenderer()
         markdownParser = mistune.Markdown(renderer=renderer)
         md = markdownParser(bp.content)
         return render(request, 'compose/preview.html', {'content': md})
