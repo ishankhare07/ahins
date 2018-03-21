@@ -1,10 +1,19 @@
+{% include "assets.html" %}
+
 {% block extra_assets %}
   {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static "css/styles.css" %}">
+  <link type="text/css" rel="stylesheet" href="{% static "css/compose.css" %}" />
 {% endblock %}
 
 {% block content %}
   {% autoescape off %}
-    {{ content }}
+    <div class="container">
+      <div class="preview">
+        <div class="col m8 s12">
+          {{ content }}
+        </div>
+      </div>
+    </div>
   {% endautoescape %}
 {% endblock %}
