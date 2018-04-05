@@ -13,8 +13,8 @@
 {% endblock %}
 
 {% block content %}
-  <div class="row">
-    <div id="compose-card" class="col s12 m8 offset-m2">
+  <form class="row" action="/posts/{{id}}/" method="post"> {% csrf_token %}
+    <div id="compose-card" class="col s12 m10 offset-m1">
       <div class="card">
         <div class="card-content">
           <div class="card-title">
@@ -57,11 +57,11 @@
               <label>Title</label>
             </div>
             <div class="col s12 m12 input-field">
-              <textarea class="materialize-textarea" id="markdown-content" onkeyup="autosaveBlob(this, 'content')" onchange="autosaveBlob(this, 'content')" type="text">{{ content }}</textarea>
+              <textarea class="materialize-textarea" data-length="10000" id="markdown-content" onkeyup="autosaveBlob(this, 'content')" onchange="autosaveBlob(this, 'content')" type="text">{{ content }}</textarea>
               <label>Content</label>
             </div>
             <div class="right">
-              <button onclick="parseMd()" class="btn waves-effect waves-light blue darken-1">Parse</button>
+              <button class="btn waves-effect waves-light blue darken-1" type="submit">Publish</button>
             </div>
           </div>
 
@@ -76,7 +76,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </form>
 
   {% include "compose/file_upload.html" %}
 {% endblock %}

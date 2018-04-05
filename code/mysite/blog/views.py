@@ -15,7 +15,6 @@ from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import html
 
-# Create your views here.
 
 def index(request):
     return render(request, 'index.html', {'title': 'Home'})
@@ -41,10 +40,12 @@ class ComposeView(View):
         bp = BlogPost.objects.get(id=post_id)
         return render(request, 'compose/index.html', {'title': bp.title, 'content': bp.content, 'id': bp.id})
 
-    def post(self, request):
-        if request.type == 'new_blog_post':
-            return HttpResponse('ack create new blog post')
-        return HttpResponse('success')
+    def post(self, request, post_id):
+        bp = BlogPost.objects.get(id=post_id)
+        bp.is_published = True
+        bp.published_on = datetime.date.today()
+        bp.save()
+        return HttpResponseReditect('/posts/{0}/'.format(bp.id))
 
     def put(self, request, post_id):
         bp = BlogPost.objects.get(id=post_id)
@@ -78,8 +79,8 @@ class PreviewView(View):
     def get(self, request, post_id):
         bp = BlogPost.objects.get(id=post_id)
         renderer = MarkdownRenderer()
-        markdownParser = mistune.Markdown(renderer=renderer)
-        md = markdownParser(bp.content)
+        markdown_parser = mistune.Markdown(renderer=renderer)
+        md = markdown_parser(bp.content)
         return render(request, 'compose/preview.html', {'content': md})
 
 @method_decorator(login_required, name='dispatch')
@@ -87,6 +88,16 @@ class ComposeNewBlogPost(View):
     def post(self, request):
         post = BlogPost.objects.create(publisher=request.user)
         return HttpResponseRedirect('/compose/{0}'.format(post.id))
+
+
+class DetailedPost(View):
+    def get(self, request, post_id):
+        bp = BlogPost.objects.get(id=post_id)
+        renderer = MarkdownRenderer()
+        markdown_parser = mistune.Markdown(renderer=renderer)
+        md = markdown_parser(bp.content)
+        return render(request, 'posts/detailed_post.html', {'content': md, 'title': bp.title, 'published_on': bp.published_on, 'summary': bp.summary})
+
 
 class PostsList(ListView):
     model = BlogPost
