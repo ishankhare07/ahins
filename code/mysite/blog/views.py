@@ -1,5 +1,6 @@
 import json
 import mistune
+import datetime
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views import View
@@ -45,7 +46,7 @@ class ComposeView(View):
         bp.is_published = True
         bp.published_on = datetime.date.today()
         bp.save()
-        return HttpResponseReditect('/posts/{0}/'.format(bp.id))
+        return HttpResponseRedirect('/posts/{0}/'.format(bp.id))
 
     def put(self, request, post_id):
         bp = BlogPost.objects.get(id=post_id)
