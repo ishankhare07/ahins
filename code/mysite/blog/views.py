@@ -2,7 +2,7 @@ import json
 import mistune
 import datetime
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponseForbidden
 from django.views import View
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
@@ -94,6 +94,8 @@ class ComposeNewBlogPost(View):
 class DetailedPost(View):
     def get(self, request, post_id):
         bp = BlogPost.objects.get(id=post_id)
+        if not bp.is_published:
+            return HttpResponseForbidden()
         renderer = MarkdownRenderer()
         markdown_parser = mistune.Markdown(renderer=renderer)
         md = markdown_parser(bp.content)
