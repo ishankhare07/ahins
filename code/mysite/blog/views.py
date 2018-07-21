@@ -17,10 +17,6 @@ from pygments.lexers import get_lexer_by_name
 from pygments.formatters import html
 
 
-def index(request):
-    return render(request, 'index.html', {'title': 'Home'})
-
-
 class ImageList(generics.ListCreateAPIView):
     serializer_class = ImagesUploadSerializer
 
@@ -102,6 +98,22 @@ class DetailedPost(View):
         return render(request, 'posts/detailed_post.html', {'content': md, 'title': bp.title, 'published_on': bp.published_on, 'summary': bp.summary})
 
 
+@method_decorator(login_required, name='dispatch')
 class PostsList(ListView):
     model = BlogPost
     template_name = 'posts/list.html'
+
+
+class PublishedPostsList(ListView):
+    def get_queryset(self):
+        return BlogPost.objects.filter(is_published=True)
+
+    def get_context_object_name(self, object_list):
+        return 'published_posts'
+
+    def get_context_data(self, **kwargs):
+        ctx_data = ListView.get_context_data(self, **kwargs)
+        ctx_data['title'] = 'Home'
+        return ctx_data
+
+    template_name = 'index.html'
