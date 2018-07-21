@@ -40,7 +40,22 @@
                   <i class="material-icons">edit</i></a>
             </div>
             <div class="card-content">
-                {{ post.summary }}
+                <div class="row">
+                  <div class="col m8 s8">
+                    {{ post.summary }}
+                  </div>
+                  <div class="col m4 s4">
+                    {% if post.is_published %}
+                      <a class="btn-flat disabled" disabled>
+                        Published <i class="material-icons right">check_circle</i>
+                      </a>
+                    {% else %}
+                      <a class="btn-flat disabled" disabled>
+                        Published <i class="material-icons right">close</i>
+                      </a>
+                    {% endif %}
+                  </div>
+                </div>
             </div>
           </div>
         </div>

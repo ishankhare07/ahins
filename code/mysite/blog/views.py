@@ -1,7 +1,8 @@
 import json
 import mistune
+import datetime
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponseForbidden
 from django.views import View
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
@@ -14,11 +15,6 @@ from blog.models import BlogPost, Images
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import html
-
-# Create your views here.
-
-def index(request):
-    return render(request, 'index.html', {'title': 'Home'})
 
 
 class ImageList(generics.ListCreateAPIView):
@@ -41,10 +37,12 @@ class ComposeView(View):
         bp = BlogPost.objects.get(id=post_id)
         return render(request, 'compose/index.html', {'title': bp.title, 'content': bp.content, 'id': bp.id})
 
-    def post(self, request):
-        if request.type == 'new_blog_post':
-            return HttpResponse('ack create new blog post')
-        return HttpResponse('success')
+    def post(self, request, post_id):
+        bp = BlogPost.objects.get(id=post_id)
+        bp.is_published = True
+        bp.published_on = datetime.date.today()
+        bp.save()
+        return HttpResponseRedirect('/posts/{0}/'.format(bp.id))
 
     def put(self, request, post_id):
         bp = BlogPost.objects.get(id=post_id)
@@ -78,8 +76,8 @@ class PreviewView(View):
     def get(self, request, post_id):
         bp = BlogPost.objects.get(id=post_id)
         renderer = MarkdownRenderer()
-        markdownParser = mistune.Markdown(renderer=renderer)
-        md = markdownParser(bp.content)
+        markdown_parser = mistune.Markdown(renderer=renderer)
+        md = markdown_parser(bp.content)
         return render(request, 'compose/preview.html', {'content': md})
 
 @method_decorator(login_required, name='dispatch')
@@ -88,6 +86,34 @@ class ComposeNewBlogPost(View):
         post = BlogPost.objects.create(publisher=request.user)
         return HttpResponseRedirect('/compose/{0}'.format(post.id))
 
+
+class DetailedPost(View):
+    def get(self, request, post_id):
+        bp = BlogPost.objects.get(id=post_id)
+        if not bp.is_published:
+            return HttpResponseForbidden()
+        renderer = MarkdownRenderer()
+        markdown_parser = mistune.Markdown(renderer=renderer)
+        md = markdown_parser(bp.content)
+        return render(request, 'posts/detailed_post.html', {'content': md, 'title': bp.title, 'published_on': bp.published_on, 'summary': bp.summary})
+
+
+@method_decorator(login_required, name='dispatch')
 class PostsList(ListView):
     model = BlogPost
     template_name = 'posts/list.html'
+
+
+class PublishedPostsList(ListView):
+    def get_queryset(self):
+        return BlogPost.objects.filter(is_published=True)
+
+    def get_context_object_name(self, object_list):
+        return 'published_posts'
+
+    def get_context_data(self, **kwargs):
+        ctx_data = ListView.get_context_data(self, **kwargs)
+        ctx_data['title'] = 'Home'
+        return ctx_data
+
+    template_name = 'index.html'
