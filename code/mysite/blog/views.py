@@ -1,7 +1,8 @@
 import json
 import mistune
+import datetime
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, HttpResponseForbidden
 from django.views import View
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
@@ -14,10 +15,6 @@ from blog.models import BlogPost, Images
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import html
-
-
-def index(request):
-    return render(request, 'index.html', {'title': 'Home'})
 
 
 class ImageList(generics.ListCreateAPIView):
@@ -45,7 +42,7 @@ class ComposeView(View):
         bp.is_published = True
         bp.published_on = datetime.date.today()
         bp.save()
-        return HttpResponseReditect('/posts/{0}/'.format(bp.id))
+        return HttpResponseRedirect('/posts/{0}/'.format(bp.id))
 
     def put(self, request, post_id):
         bp = BlogPost.objects.get(id=post_id)
@@ -93,12 +90,30 @@ class ComposeNewBlogPost(View):
 class DetailedPost(View):
     def get(self, request, post_id):
         bp = BlogPost.objects.get(id=post_id)
+        if not bp.is_published:
+            return HttpResponseForbidden()
         renderer = MarkdownRenderer()
         markdown_parser = mistune.Markdown(renderer=renderer)
         md = markdown_parser(bp.content)
         return render(request, 'posts/detailed_post.html', {'content': md, 'title': bp.title, 'published_on': bp.published_on, 'summary': bp.summary})
 
 
+@method_decorator(login_required, name='dispatch')
 class PostsList(ListView):
     model = BlogPost
     template_name = 'posts/list.html'
+
+
+class PublishedPostsList(ListView):
+    def get_queryset(self):
+        return BlogPost.objects.filter(is_published=True)
+
+    def get_context_object_name(self, object_list):
+        return 'published_posts'
+
+    def get_context_data(self, **kwargs):
+        ctx_data = ListView.get_context_data(self, **kwargs)
+        ctx_data['title'] = 'Home'
+        return ctx_data
+
+    template_name = 'index.html'

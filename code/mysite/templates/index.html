@@ -6,4 +6,29 @@
 
 {% block content %}
   {{ block.super }}
+  <div class="row">
+    <div class="col m10 s12">
+      <div class="row">
+        {% for published_post in published_posts %}
+            {% if forloop.counter|divisibleby:2 %}
+              {% include "posts/published_list.html" %}
+            {% else %}
+              {% include "posts/published_list.html" %}
+            {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="col m2 hide-on-small-only">
+      <div class="card">
+        <div class="card-content">
+          <div class="card-title">
+            Tags
+          </div>
+          <div class="divider"></div>
+          Some list of tags
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
