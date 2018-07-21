@@ -35,6 +35,8 @@ services:
         container_name: ahins-pg
         environment:
             - POSTGRES_PASSWORD=example
+            - POSTGRES_USER=ahins
+            - POSTGRES_DB=ahins
         ports:
             - 5432:5432
         volumes:
