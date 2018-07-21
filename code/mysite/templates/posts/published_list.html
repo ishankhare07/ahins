@@ -1,13 +1,15 @@
 <div class="col m6 s12">
-  <div class="card">
-    <div class="card-image">
-      <img src="http://placehold.it/500x200" />
-      <div class="card-title">
-        {{ published_post.title }}
+  <a href="/posts/{{ published_post.id }}/">
+    <div class="card">
+      <div class="card-image">
+        <img src="http://placehold.it/500x200" />
+        <div class="card-title">
+          {{ published_post.title }}
+        </div>
+      </div>
+      <div class="card-content">
+        {{ published_post.summary }}
       </div>
     </div>
-    <div class="card-content">
-      {{ published_post.summary }}
-    </div>
-  </div>
+  </a>
 </div>
