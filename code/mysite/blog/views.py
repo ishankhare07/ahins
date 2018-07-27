@@ -88,14 +88,23 @@ class ComposeNewBlogPost(View):
 
 
 class DetailedPost(View):
+    def limit_published(self, bp):
+        return not bp.is_published
+
     def get(self, request, post_id):
         bp = BlogPost.objects.get(id=post_id)
-        if not bp.is_published:
+        if self.limit_published(bp):
             return HttpResponseForbidden()
         renderer = MarkdownRenderer()
         markdown_parser = mistune.Markdown(renderer=renderer)
         md = markdown_parser(bp.content)
         return render(request, 'posts/detailed_post.html', {'content': md, 'title': bp.title, 'published_on': bp.published_on, 'summary': bp.summary})
+
+
+@method_decorator(login_required, name='dispatch')
+class DetailedPreview(DetailedPost):
+    def limit_published(self, bp):
+        return False
 
 
 @method_decorator(login_required, name='dispatch')
