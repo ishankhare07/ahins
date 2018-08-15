@@ -52,8 +52,12 @@
             </ul>
           </div>
           <div id="write" class="row">
-            <div class="col s12 m12 input-field">
-              <textarea class="materialize-textarea" id="markdown-title" onkeyup="autosaveBlob(this, 'title')" onchange="autosaveBlob(this, 'title')" type="text">{{ title }}</textarea>
+            <div class="col s12 m6 input-field">
+              <input value="{{ background_image }}" class="materialize-textarea" id="markdown-bg" onkeyup="autosaveBlob(this, 'background_image')" onchange="autosaveBlob(this, 'background_image')" type="text" />
+              <label>Background</label>
+            </div>
+            <div class="col s12 m6 input-field">
+              <input value="{{ title }}" class="materialize-textarea" id="markdown-title" onkeyup="autosaveBlob(this, 'title')" onchange="autosaveBlob(this, 'title')" type="text" />
               <label>Title</label>
             </div>
             <div class="col s12 m12 input-field">
