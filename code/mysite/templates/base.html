@@ -18,11 +18,11 @@
           Ishan Khare
         </a>
         <ul class="left">
-          <li id="navToggle" data-activates="slide-out"><a href="#"><i class="material-icons">menu</i></a></li>
+          <li id="navToggle" data-activates="slide-out" class="prevent-disc"><a href="#"><i class="material-icons">menu</i></a></li>
         </ul>
         <ul class="right">
           {% if user.is_authenticated %}
-            <li>
+            <li class="prevent-disc">
               <a id="settings_dropdown_button"
                   class="dropdown-button"
                   data-activates="settings_dropdown"
@@ -33,13 +33,13 @@
             </li>
 
             <ul id="settings_dropdown" class="dropdown-content">
-              <li>
+              <li class="prevent-disc">
                 <a href="/posts/list/">
                   <i class="material-icons">list</i>Blog Posts
                 </a>
               </li>
-              <li class="divider"></li>
-              <li>
+              <li class="divider prevent-disc"></li>
+              <li class="prevent-disc">
                 <a href="{% url 'logout' %}">
                   <i class="material-icons">exit_to_app</i>Logout
                 </a>
@@ -58,7 +58,7 @@
   </div>
 
   <ul id="slide-out" class="side-nav">
-    <li>
+    <li class="prevent-disc">
       <div class="user-view">
         <div class="background">
           {% load static %}
@@ -70,13 +70,13 @@
         <a href="mailto:ishankhare07@gmail.com"><span class="white-text email">ishankhare07@gmail.com</span></a>
       </div>
     </li>
-    <li><a href="/"><i class="material-icons">home</i>Home</a></li>
-    <li><a href="#"><i class="material-icons">info</i>About me</a></li>
-    <li>
+    <li class="prevent-disc"><a href="/"><i class="material-icons">home</i>Home</a></li>
+    <li class="prevent-disc"><a href="#"><i class="material-icons">info</i>About me</a></li>
+    <li class="prevent-disc">
       <div class="divider"></div>
     </li>
-    <li><a class="subheader">Subheader</a></li>
-    <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+    <li class="prevent-disc"><a class="subheader">Subheader</a></li>
+    <li class="prevent-disc"><a class="waves-effect" href="#!">Third Link With Waves</a></li>
   </ul>
 
   {% block compose_bar %}
