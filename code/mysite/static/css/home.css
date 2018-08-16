@@ -20,6 +20,7 @@ body {
 
 .self-name {
   font-family: samarkan;
+  text-shadow: 0 0 20px black;
 }
 
 .responsive-img {
@@ -27,4 +28,12 @@ body {
   border-radius: 3px;
   border-style: solid;
   border-color: lightgrey;
+}
+
+.title-shadow {
+  text-shadow: 0px 0px 20px black;
+}
+
+.bg-cover {
+  object-fit: cover;
 }

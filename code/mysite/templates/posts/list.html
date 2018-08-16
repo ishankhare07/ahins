@@ -27,15 +27,13 @@
     {% for post in object_list %}
       <div class="row">
         <div class="col offset-m2 m8 s12">
-          {% if not post.is_published %}
-          <a href="/compose/preview/{{ post.id }}/">
-          {% else %}
+          {% if post.is_published %}
           <a href="/posts/{{ post.id }}/">
           {% endif %}
             <div class="card">
               <div class="card-image">
-                <img src="http://placehold.it/500x200" />
-                <div class="card-title">
+                <img src="{{ post.background_image }}" height="200px" class="bg-cover"/>
+                <div class="card-title title-shadow">
                   {{ post.title }}
                 </div>
                 <a href="/compose/{{ post.id }}/"
