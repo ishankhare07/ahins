@@ -35,7 +35,10 @@ class ImageUploadView(generics.RetrieveUpdateAPIView):
 class ComposeView(View):
     def get(self, request, post_id):
         bp = BlogPost.objects.get(id=post_id)
-        return render(request, 'compose/index.html', {'title': bp.title, 'content': bp.content, 'id': bp.id})
+        return render(request, 'compose/index.html', {'title': bp.title,
+                                                    'content': bp.content,
+                                                    'id': bp.id,
+                                                    'background_image': bp.background_image})
 
     def post(self, request, post_id):
         bp = BlogPost.objects.get(id=post_id)
@@ -52,6 +55,7 @@ class ComposeView(View):
             serializer.save()
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)
+
 
 class MarkdownRenderer(mistune.Renderer):
     """
@@ -80,6 +84,7 @@ class PreviewView(View):
         md = markdown_parser(bp.content)
         return render(request, 'compose/preview.html', {'content': md})
 
+
 @method_decorator(login_required, name='dispatch')
 class ComposeNewBlogPost(View):
     def post(self, request):
@@ -88,14 +93,27 @@ class ComposeNewBlogPost(View):
 
 
 class DetailedPost(View):
+    def limit_published(self, bp):
+        return not bp.is_published
+
     def get(self, request, post_id):
         bp = BlogPost.objects.get(id=post_id)
-        if not bp.is_published:
+        if self.limit_published(bp):
             return HttpResponseForbidden()
         renderer = MarkdownRenderer()
         markdown_parser = mistune.Markdown(renderer=renderer)
         md = markdown_parser(bp.content)
-        return render(request, 'posts/detailed_post.html', {'content': md, 'title': bp.title, 'published_on': bp.published_on, 'summary': bp.summary})
+        return render(request, 'posts/detailed_post.html', {'content': md,
+                                                            'title': bp.title,
+                                                            'published_on': bp.published_on,
+                                                            'summary': bp.summary,
+                                                            'background_image': bp.background_image})
+
+
+@method_decorator(login_required, name='dispatch')
+class DetailedPreview(DetailedPost):
+    def limit_published(self, bp):
+        return False
 
 
 @method_decorator(login_required, name='dispatch')

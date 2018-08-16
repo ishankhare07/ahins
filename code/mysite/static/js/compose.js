@@ -2,6 +2,7 @@ class CurrentState {
   constructor() {
     this.title = $('#markdown-title')[0].value;
     this.content = $('#markdown-content')[0].value;
+    this.background_image = $('#markdown-bg')[0].value;
     this.timeToAjax = 2000;
   }
 
@@ -9,6 +10,8 @@ class CurrentState {
     if (type === 'title' && this.title !== newBlob) {
       return true
     } else if (type === 'content' && this.content !== newBlob) {
+      return true
+    } else if (type === 'background_image' && this.background_image !== newBlob) {
       return true
     } else {
       return false
@@ -53,6 +56,14 @@ class CurrentState {
       }
       this.updateContentTimeout = setTimeout(() => {
         this.updateFieldWithAjax(this.content, 'content')
+      }, this.timeToAjax);
+    } else if (type === 'background_image') {
+      this.background_image = newBlob
+      if (this.updateBgTimeout) {
+        clearTimeout(this.updateBgTimeout)
+      }
+      this.updateBgTimeout = setTimeout(() => {
+        this.updateFieldWithAjax(this.background_image, 'background_image')
       }, this.timeToAjax);
     }
   }
