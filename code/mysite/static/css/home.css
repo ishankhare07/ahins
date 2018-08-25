@@ -54,3 +54,13 @@ body {
 .bg-cover {
   object-fit: cover;
 }
+
+.social-icons {
+  margin-right: 30px;
+  vertical-align: middle;
+  height: 30px;
+}
+
+.email-font {
+  font-family: Roboto Mono;
+}
