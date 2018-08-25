@@ -1,3 +1,10 @@
+@font-face {
+font-family: 'Samarkan Normal';
+font-style: normal;
+font-weight: normal;
+src: local('Samarkan Normal'), url('/static/SAMARN__.woff') format('woff');
+}
+
 .profile-pic {
   object-fit: cover;
   object-position: top;
@@ -21,7 +28,7 @@ ul:not(.browser-default) > li {
 }
 
 body {
-  background-color: lavender;
+  background-color: #eee;
 }
 
 .top-align-icons {
@@ -29,6 +36,7 @@ body {
 }
 
 .self-name {
+  font-family: Samarkan Normal;
   text-shadow: 0 0 20px black;
 }
 
@@ -45,4 +53,14 @@ body {
 
 .bg-cover {
   object-fit: cover;
+}
+
+.social-icons {
+  margin-right: 30px;
+  vertical-align: middle;
+  height: 30px;
+}
+
+.email-font {
+  font-family: Roboto Mono;
 }
