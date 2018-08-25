@@ -28,7 +28,7 @@ services:
         volumes:
             - ./code/mysite/static:/resources/static
             - ~/media:/resources/media
-            - /etc/letsencrypt/live/ishankhare.com:/certs
+            - /etc/letsencrypt/archive/ishankhare.com:/certs
         depends_on:
             - django
         networks:
