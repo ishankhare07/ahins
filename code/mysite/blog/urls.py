@@ -6,6 +6,8 @@ from blog import views
 urlpatterns = [
     url(r'^$', views.PublishedPostsList.as_view()),
     url(r'^about/$', lambda request: render(request, 'about.html')),
+    # this should be removed from here, and the link should be updated to the
+    # correct path, instead of a useless redirect
     url(r'^resume.pdf$', lambda request: HttpResponseRedirect('/static/resume.pdf')),
     url(r'^compose/(?P<post_id>\d+)/$', views.ComposeView.as_view()),
     url(r'^compose/(?P<post_id>\d+)/preview/$', views.PreviewView.as_view()),
