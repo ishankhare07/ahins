@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='blogpost',
             name='background_image',
-            field=models.TextField(default='http://placehold.it/500x200'),
+            field=models.TextField(default='//placehold.it/500x200'),
         ),
         migrations.AlterField(
             model_name='blogpost',

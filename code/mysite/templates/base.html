@@ -46,7 +46,7 @@
               </li>
             </ul>
           {% else %}
-          <li>
+          <li class="prevent-disc">
             <a href="{% url 'login' %}">
               <i class="material-icons">account_circle</i>
             </a>
@@ -67,16 +67,31 @@
         {% load static %}
         <a href="#"><img class="img-responsive profile-pic circle" src="{% static "images/profile_pic.jpg" %}"></a>
         <a href="#"><span class="white-text name self-name">Ishan Khare</span></a>
-        <a href="mailto:ishankhare07@gmail.com"><span class="white-text email">ishankhare07@gmail.com</span></a>
+        <a href="mailto:me@ishankhare.com" class="email-font"><span class="white-text email">me@ishankhare.com</span></a>
       </div>
     </li>
     <li class="prevent-disc"><a href="/"><i class="material-icons">home</i>Home</a></li>
-    <li class="prevent-disc"><a href="#"><i class="material-icons">info</i>About me</a></li>
+    <li class="prevent-disc"><a href="/about"><i class="material-icons">info</i>About me</a></li>
     <li class="prevent-disc">
       <div class="divider"></div>
     </li>
-    <li class="prevent-disc"><a class="subheader">Subheader</a></li>
-    <li class="prevent-disc"><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+    <li class="prevent-disc"><a class="subheader">Code</a></li>
+    <li class="prevent-disc">
+      <a target="_blank" rel="noopener noreferrer" href="//github.com/ishankhare07" class="waves-effect">
+        <img src="{% static "images/github.png" %}" class="social-icons"/>
+          Github
+      </a>
+    </li>
+    <li class="prevent-disc">
+      <a target="_blank" rel="noopener noreferrer" href="//gitlab.com/ishankhare07" class="waves-effect">
+        <!-- <i class="material-icons">
+          open_in_new
+        </i> -->
+        {% load static %}
+        <img src="{% static "images/gitlab.png" %}" class="social-icons"/>
+        GitLab
+      </a>
+    </li>
   </ul>
 
   {% block compose_bar %}
