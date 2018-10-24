@@ -15,6 +15,28 @@ class BlogPost(models.Model):
         return '{0} {1}'.format(self.id, self.title)
 
 
+class Tags(models.Model):
+    creator = models.ForeignKey('core.User', on_delete=models.CASCADE)
+    tag_name = models.TextField(null=False, blank=False)
+
+    def __str__(self):
+        return '{}: {}'.format(self.tag_name, self.creator)
+
+    class Meta:
+        verbose_name = 'Tag'
+
+
+class BlogTags(models.Model):
+    blog_id = models.ForeignKey('BlogPost', on_delete=models.CASCADE)
+    tag_id = models.ForeignKey('Tags', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '{} => {}'.format(self.tag_id.tag_name, self.blog_id.title)
+
+    class Meta:
+        verbose_name = 'BlogTag'
+
+
 class Images(models.Model):
     post_id = models.ForeignKey('blog.BlogPost', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
