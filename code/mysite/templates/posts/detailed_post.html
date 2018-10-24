@@ -1,34 +1,54 @@
 {% extends "base.html" %}
 
 {% block extra_assets %}
-  {% load static %}
-  <link rel="stylesheet" type="text/css" href="{% static "css/styles.css" %}">
-  <link type="text/css" rel="stylesheet" href="{% static "css/compose.css" %}" />
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static " css/styles.css" %}">
+<link type="text/css" rel="stylesheet" href="{% static " css/compose.css" %}" />
 {% endblock %}
 
 {% block title %}
-  {{ title }}
+{{ title }}
 {% endblock %}
 
 {% block content %}
-  {% autoescape off %}
-  {{ block.super }}
+{% autoescape off %}
+{{ block.super }}
 
-  <div class="container">
-    <div class="row">
-      <div class="col offset-m1 m10 s12">
-        <div class="card detailed-post">
-          <div class="card-image">
-            <img src="{{ background_image }}" />
-            <span class="card-title title-shadow">{{ title }}</span>
-          </div>
-          <div class="card-content">
-            {{ content }}
-          </div>
+<div class="container">
+  <div class="row">
+    <div class="col offset-m1 m10 s12">
+      <div class="card detailed-post">
+        <div class="card-image">
+          <img src="{{ background_image }}" />
+          <span class="card-title title-shadow">{{ title }}</span>
+        </div>
+        <div class="card-content">
+          {{ content }}
+
+          <div id="disqus_thread"></div>
+          <script>
+            /**
+             *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+             *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+            var disqus_config = function () {
+            this.page.url = window.location.origin;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = window.location.pathname; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            (function() { // DON'T EDIT BELOW THIS LINE
+              var d = document,
+                s = d.createElement('script');
+              s.src = 'https://ahins.disqus.com/embed.js';
+              s.setAttribute('data-timestamp', +new Date());
+              (d.head || d.body).appendChild(s);
+            })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  {% endautoescape %}
+{% endautoescape %}
 {% endblock %}
