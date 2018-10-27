@@ -21,14 +21,14 @@
           Ishan Khare
         </a>
         <ul class="left">
-          <li id="navToggle" data-activates="slide-out" class="prevent-disc"><a href="#"><i class="material-icons">menu</i></a></li>
+          <li id="navToggle" data-target="slide-out" class="prevent-disc sidenav-trigger"><a href="#"><i class="material-icons">menu</i></a></li>
         </ul>
         <ul class="right">
           {% if user.is_authenticated %}
             <li class="prevent-disc">
               <a id="settings_dropdown_button"
-                  class="dropdown-button"
-                  data-activates="settings_dropdown"
+                  class="dropdown-trigger"
+                  data-target="settings_dropdown"
                   data-beloworigin="true"
                   data-constrainWidth="false" href="#">
                 <i class="material-icons">settings</i>
@@ -60,7 +60,7 @@
     </nav>
   </div>
 
-  <ul id="slide-out" class="side-nav">
+  <ul id="slide-out" class="sidenav">
     <li class="prevent-disc">
       <div class="user-view">
         <div class="background">

@@ -75,6 +75,7 @@ function getCookie(name) {
   .split('=')[1]
 }
 
+
 function autosaveBlob(event, type) {
   var blob = event.value;
   if (composeState.isChanged(blob, type)) {
@@ -151,3 +152,7 @@ function uploadFile() {
 
   xhr.send(formData);
 }
+
+$('#tag-chips').on('chip.add', (event, chip) => {
+  console.log('tag added');
+})

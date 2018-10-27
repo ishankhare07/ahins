@@ -1,5 +1,5 @@
-window.onload = () => {
-	$("#navToggle").sideNav();
+$(document).ready(() => {
+	$(".sidenav").sidenav();
 	$("#settings_dropdown_button").dropdown({
 		belowOrigin: true,
 		constrainWidth: false,
@@ -48,4 +48,17 @@ window.onload = () => {
 			$('#file-list').empty();
 		}
 	});
-}
+
+	$('.chips-autocomplete').chips({
+		autocompleteOptions: {
+			data: {
+				'golang': null,
+				'docker': null,
+				'kubernetes': null
+			}
+		},
+		onChipAdd: function(event) {
+			console.log('tag added');
+		}
+	});
+});
