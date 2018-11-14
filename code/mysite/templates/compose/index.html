@@ -60,6 +60,11 @@
               <input value="{{ title }}" class="materialize-textarea" id="markdown-title" onkeyup="autosaveBlob(this, 'title')" onchange="autosaveBlob(this, 'title')" type="text" />
               <label>Title</label>
             </div>
+            <div class="col s12 m6 input-field">
+              <div class="chips-placeholder">Tags</div>
+              <div class="chips chips-autocomplete prevent-disc">
+              </div>
+            </div>
             <div class="col s12 m12 input-field">
               <textarea class="materialize-textarea" id="markdown-content" onkeyup="autosaveBlob(this, 'content')" onchange="autosaveBlob(this, 'content')" type="text">{{ content }}</textarea>
               <label>Content</label>

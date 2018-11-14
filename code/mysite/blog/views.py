@@ -10,8 +10,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from blog.serializers import BlogPostSerializer, ImagesUploadSerializer
-from blog.models import BlogPost, Images
+from blog.serializers import BlogPostSerializer, ImagesUploadSerializer, TagsSerializer, BlogTagsSerializer
+from blog.models import BlogPost, Images, Tags, BlogTags
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import html
@@ -28,6 +28,19 @@ class ImageList(generics.ListCreateAPIView):
 class ImageUploadView(generics.RetrieveUpdateAPIView):
     queryset = Images.objects.all()
     serializer_class = ImagesUploadSerializer
+
+
+class TagsView(generics.ListCreateAPIView):
+    queryset = Tags.objects.all()
+    serializer_class = TagsSerializer
+
+
+class BlogTagsView(generics.RetrieveUpdateAPIView):
+    serializer_class = BlogTagsSerializer
+
+    def get_queryset(self):
+        post_id = self.kwargs.get('pk')
+        return BlogPost.objects.filter(id=post_id)
 
 
 @method_decorator(login_required, name='dispatch')

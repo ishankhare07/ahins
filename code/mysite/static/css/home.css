@@ -20,6 +20,11 @@ ul:not(.browser-default) > li {
   list-style-type: none !important;
 }
 
+.autocomplete-content li {
+  margin-left: 0px !important;
+  list-style-type: none !important;
+}
+
 .bg-image {
   height: 100%;
   width: 100%;
