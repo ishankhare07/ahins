@@ -1,5 +1,5 @@
-window.onload = () => {
-	$("#navToggle").sideNav();
+$(document).ready(() => {
+	$(".sidenav").sidenav();
 	$("#settings_dropdown_button").dropdown({
 		belowOrigin: true,
 		constrainWidth: false,
@@ -7,7 +7,7 @@ window.onload = () => {
 
 	$('#tabs.tabs').tabs({
 		onShow: (t) => {
-			if (t[0].id === 'preview') {
+			if (t.id === 'preview') {
 				$('#md-preview')[0].contentWindow.location.reload();
 			}
 		}
@@ -48,4 +48,5 @@ window.onload = () => {
 			$('#file-list').empty();
 		}
 	});
-}
+	// initializeChips();
+});

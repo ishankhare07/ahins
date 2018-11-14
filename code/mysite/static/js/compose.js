@@ -75,6 +75,7 @@ function getCookie(name) {
   .split('=')[1]
 }
 
+
 function autosaveBlob(event, type) {
   var blob = event.value;
   if (composeState.isChanged(blob, type)) {
@@ -150,4 +151,30 @@ function uploadFile() {
   }
 
   xhr.send(formData);
+}
+
+function initializeChips() {
+  $('.chips-autocomplete').chips({
+    data: [
+      {
+        tag: 'golang',
+        id: 1
+      },
+      {
+        tag: 'kubernetes',
+        id: 2
+      }
+    ],
+    autocompleteOptions: {
+      data: {
+        'golang': null,
+        'docker': null,
+        'kubernetes': null
+      },
+      minLength: 2
+    },
+    onChipAdd: (event, chips) => {
+      console.log(event[0].M_Chips.chipsData);
+    }
+  });
 }

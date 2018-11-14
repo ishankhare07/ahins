@@ -27,8 +27,8 @@ if os.environ.get('IS_DEV_ENV'):
     DEBUG = True
     ALLOWED_HOSTS = ['localhost']
 else:
-    DEBUG = False
-    ALLOWED_HOSTS = ['35.188.215.192', 'ishankhare.com', 'www.ishankhare.com']
+    DEBUG = True
+    ALLOWED_HOSTS = ['35.188.215.192', 'ishankhare.com', 'www.ishankhare.com', 'localhost', 'staging.ishankhare.com']
 
 
 # Application definition
