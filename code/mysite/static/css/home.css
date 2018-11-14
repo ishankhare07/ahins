@@ -69,3 +69,7 @@ body {
 .email-font {
   font-family: Roboto Mono;
 }
+
+pre {
+  overflow: scroll;
+}
