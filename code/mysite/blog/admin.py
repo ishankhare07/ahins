@@ -5,7 +5,7 @@ from blog.models import BlogPost, Images, Tags, BlogTags
 class BlogPostAdmin(admin.ModelAdmin):
     list_display = ('title', 'id', 'published_on', 'last_modified', 'publisher')
     readonly_fields = ('last_modified',)
-
+    filter_horizontal = ('tags',)
 
 class ImagesAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)

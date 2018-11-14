@@ -153,6 +153,28 @@ function uploadFile() {
   xhr.send(formData);
 }
 
-$('#tag-chips').on('chip.add', (event, chip) => {
-  console.log('tag added');
-})
+function initializeChips() {
+  $('.chips-autocomplete').chips({
+    data: [
+      {
+        tag: 'golang',
+        id: 1
+      },
+      {
+        tag: 'kubernetes',
+        id: 2
+      }
+    ],
+    autocompleteOptions: {
+      data: {
+        'golang': null,
+        'docker': null,
+        'kubernetes': null
+      },
+      minLength: 2
+    },
+    onChipAdd: (event, chips) => {
+      console.log(event[0].M_Chips.chipsData);
+    }
+  });
+}

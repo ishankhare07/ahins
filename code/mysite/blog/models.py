@@ -1,20 +1,6 @@
 from django.db import models
 
 
-class BlogPost(models.Model):
-    publisher = models.ForeignKey('core.User', on_delete=models.CASCADE)
-    background_image = models.TextField(default='//placehold.it/500x200')
-    title = models.CharField(max_length=100, null=False, blank=False, default='Untitled')
-    is_published = models.BooleanField(default=False)
-    published_on = models.DateField(null=True, blank=True)
-    last_modified = models.DateTimeField(auto_now=True, blank=False, null=False)
-    content = models.TextField(blank=True, null=True, default='')
-    summary = models.CharField(max_length=200, blank=True, null=True)
-
-    def __str__(self):
-        return '{0} {1}'.format(self.id, self.title)
-
-
 class Tags(models.Model):
     creator = models.ForeignKey('core.User', on_delete=models.CASCADE)
     tag_name = models.TextField(null=False, blank=False)
@@ -26,12 +12,27 @@ class Tags(models.Model):
         verbose_name = 'Tag'
 
 
-class BlogTags(models.Model):
-    blog_id = models.ForeignKey('BlogPost', on_delete=models.CASCADE)
-    tag_id = models.ForeignKey('Tags', on_delete=models.CASCADE)
+class BlogPost(models.Model):
+    publisher = models.ForeignKey('core.User', on_delete=models.CASCADE)
+    background_image = models.TextField(default='//placehold.it/500x200')
+    title = models.CharField(max_length=100, null=False, blank=False, default='Untitled')
+    is_published = models.BooleanField(default=False)
+    published_on = models.DateField(null=True, blank=True)
+    last_modified = models.DateTimeField(auto_now=True, blank=False, null=False)
+    content = models.TextField(blank=True, null=True, default='')
+    summary = models.CharField(max_length=200, blank=True, null=True)
+    tags = models.ManyToManyField('Tags')
 
     def __str__(self):
-        return '{} => {}'.format(self.tag_id.tag_name, self.blog_id.title)
+        return '{0} {1}'.format(self.id, self.title)
+
+
+class BlogTags(models.Model):
+    blog = models.ForeignKey('BlogPost', on_delete=models.CASCADE)
+    tag = models.ForeignKey('Tags', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '{} => {}'.format(self.tag.tag_name, self.blog.title)
 
     class Meta:
         verbose_name = 'BlogTag'

@@ -7,7 +7,7 @@ $(document).ready(() => {
 
 	$('#tabs.tabs').tabs({
 		onShow: (t) => {
-			if (t[0].id === 'preview') {
+			if (t.id === 'preview') {
 				$('#md-preview')[0].contentWindow.location.reload();
 			}
 		}
@@ -48,17 +48,5 @@ $(document).ready(() => {
 			$('#file-list').empty();
 		}
 	});
-
-	$('.chips-autocomplete').chips({
-		autocompleteOptions: {
-			data: {
-				'golang': null,
-				'docker': null,
-				'kubernetes': null
-			}
-		},
-		onChipAdd: function(event) {
-			console.log('tag added');
-		}
-	});
+	// initializeChips();
 });
