@@ -73,3 +73,9 @@ body {
 pre {
   overflow: scroll;
 }
+
+code {
+  background-color: lightgrey;
+  border-radius: 3px;
+  padding: 3px;
+}
