@@ -137,7 +137,7 @@ class PostsList(ListView):
 
 class PublishedPostsList(ListView):
     def get_queryset(self):
-        return BlogPost.objects.filter(is_published=True)
+        return BlogPost.objects.filter(is_published=True).order_by('-published_on')
 
     def get_context_object_name(self, object_list):
         return 'published_posts'
