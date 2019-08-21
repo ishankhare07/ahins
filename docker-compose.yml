@@ -56,7 +56,7 @@ services:
         build:
             context: ./code
             dockerfile: Dockerfile
-        image: registry.gitlab.com/ishankhare07/ahins:v0.0.7.prod
+        image: registry.gitlab.com/ishankhare07/ahins:v0.0.8.prod
         container_name: ahins-prod
         working_dir: /code/mysite
         environment:
