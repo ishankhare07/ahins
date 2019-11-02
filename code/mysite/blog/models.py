@@ -6,7 +6,7 @@ class Tags(models.Model):
     tag_name = models.TextField(null=False, blank=False)
 
     def __str__(self):
-        return '{}: {}'.format(self.tag_name, self.creator)
+        return self.tag_name
 
     class Meta:
         verbose_name = 'Tag'
@@ -25,18 +25,6 @@ class BlogPost(models.Model):
 
     def __str__(self):
         return '{0} {1}'.format(self.id, self.title)
-
-
-class BlogTags(models.Model):
-    blog = models.ForeignKey('BlogPost', on_delete=models.CASCADE)
-    tag = models.ForeignKey('Tags', on_delete=models.CASCADE)
-
-    def __str__(self):
-        return '{}'.format(self.tag.tag_name)
-
-    class Meta:
-        verbose_name = 'BlogTag'
-        unique_together = ('blog', 'tag')
 
 
 class Images(models.Model):
