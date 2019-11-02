@@ -11,7 +11,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from blog.serializers import BlogPostSerializer, ImagesUploadSerializer, TagsSerializer, BlogTagsSerializer
-from blog.models import BlogPost, Images, Tags, BlogTags
+from blog.models import BlogPost, Images, Tags
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters import html
@@ -120,6 +120,7 @@ class DetailedPost(View):
                                                             'title': bp.title,
                                                             'published_on': bp.published_on,
                                                             'summary': bp.summary,
+                                                            'tags': bp.tags.all(),
                                                             'background_image': bp.background_image})
 
 
