@@ -7,6 +7,11 @@ class BlogPostAdmin(admin.ModelAdmin):
     readonly_fields = ('last_modified',)
     filter_horizontal = ('tags',)
 
+
+class BlogTagsAdmin(admin.ModelAdmin):
+    list_display = ('blog', 'tag')
+
+
 class ImagesAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
 
@@ -14,4 +19,4 @@ class ImagesAdmin(admin.ModelAdmin):
 admin.site.register(BlogPost, BlogPostAdmin)
 admin.site.register(Images, ImagesAdmin)
 admin.site.register(Tags, admin.ModelAdmin)
-admin.site.register(BlogTags, admin.ModelAdmin)
+admin.site.register(BlogTags, BlogTagsAdmin)

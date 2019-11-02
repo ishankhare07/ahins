@@ -32,10 +32,11 @@ class BlogTags(models.Model):
     tag = models.ForeignKey('Tags', on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{} => {}'.format(self.tag.tag_name, self.blog.title)
+        return '{}'.format(self.tag.tag_name)
 
     class Meta:
         verbose_name = 'BlogTag'
+        unique_together = ('blog', 'tag')
 
 
 class Images(models.Model):

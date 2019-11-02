@@ -116,10 +116,12 @@ class DetailedPost(View):
         renderer = MarkdownRenderer()
         markdown_parser = mistune.Markdown(renderer=renderer)
         md = markdown_parser(bp.content)
+        tags = BlogTags.objects.filter(blog=post_id)
         return render(request, 'posts/detailed_post.html', {'content': md,
                                                             'title': bp.title,
                                                             'published_on': bp.published_on,
                                                             'summary': bp.summary,
+                                                            'tags': tags,
                                                             'background_image': bp.background_image})
 
 
