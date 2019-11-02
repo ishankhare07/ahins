@@ -23,6 +23,13 @@
           <span class="card-title title-shadow">{{ title }}</span>
         </div>
         <div class="card-content">
+          <div class="row">
+            {% for tag in tags %}
+              <div class="chip">
+                {{ tag }}
+              </div>
+            {% endfor %}
+          </div>
           {{ content }}
 
           <div id="disqus_thread"></div>

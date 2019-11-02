@@ -79,3 +79,8 @@ code {
   border-radius: 3px;
   padding: 3px;
 }
+
+.chip {
+  background-color: #1976D2 !important;
+  color: #eee;
+}

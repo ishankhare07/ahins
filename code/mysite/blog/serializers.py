@@ -1,5 +1,5 @@
 from core.models import User
-from blog.models import BlogPost, Images, Tags, BlogTags
+from blog.models import BlogPost, Images, Tags
 from rest_framework import serializers
 
 
