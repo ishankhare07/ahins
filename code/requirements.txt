@@ -1,5 +1,5 @@
 pyup-update-django-2.0.2-to-3.0
-Django==3.0
+Django==3.0.1
 djangorestframework==3.9.1
 gunicorn==19.7.1
 mistune==0.8.3
