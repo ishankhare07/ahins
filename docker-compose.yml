@@ -65,6 +65,7 @@ services:
         volumes:
             - ./code:/code
             - ~/media:/code/mysite/media
+            - /secrets:/secrets
         networks:
             ahins:
                 aliases:
