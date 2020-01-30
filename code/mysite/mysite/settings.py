@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from google.oauth2 import service_account
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,7 +29,7 @@ if os.environ.get('IS_DEV_ENV'):
     ALLOWED_HOSTS = ['localhost']
 else:
     DEBUG = False
-    ALLOWED_HOSTS = ['35.188.215.192', 'ishankhare.com', 'www.ishankhare.com', 'localhost', 'staging.ishankhare.com']
+    ALLOWED_HOSTS = ['ishankhare.com', 'www.ishankhare.com']
 
 
 # Application definition
@@ -106,6 +107,11 @@ else:
         }
     }
 
+# google cloud storage config
+# using django-storages
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'ahins'
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file("/secrets/bucket-secrets.json")
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
