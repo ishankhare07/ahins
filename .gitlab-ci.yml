@@ -14,7 +14,7 @@ before_script:
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 variables:
-  REGISTRY_URL: "registry.gitlab.com/ishankhare07/"
+  REGISTRY_URL: "registry.gitlab.com/ishankhare07"
 
 build:
   only:
