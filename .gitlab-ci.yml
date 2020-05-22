@@ -20,5 +20,5 @@ build:
   only:
     - tags
   script:
-    - echo "registry url\: ${CI_REGISTRY}"
+    - echo "registry url: ${CI_REGISTRY}"
     - docker build -f ./code/Dockerfile ./code -t "${REGISTRY_URL}/ahins/${CI_COMMIT_TAG}"
