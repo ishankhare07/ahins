@@ -29,8 +29,7 @@ variables:
   HELM_URL: "helm-v3.2.1-linux-amd64.tar.gz"
 
 build_and_push_to_registry:
-  stage:
-    - build
+  stage: build
   only:
     - tags
     #- define-ci-cd
@@ -41,8 +40,7 @@ build_and_push_to_registry:
     - helm template render --dry-run --debug ./helm_chart --set dockerImage=${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod
 
 create_deploy_in_k8s:
-  stage:
-    - deploy
+  stage: deploy
   environment:
     name: deploy
   only:
