@@ -39,6 +39,7 @@ deploy:
     name: deploy
   only:
     - tags
-  when: manual
+  #when: manual
   script:
-    - kubectl get nodes
+    - helm install --generate-name ./helm_chart --set dockerImage=${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod
+    - kubectl get deploy
