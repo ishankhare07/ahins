@@ -15,7 +15,8 @@ spec:
         app: django
     spec:
       containers:
-        - name: {{ .Values.dockerImage }}
+        - name: django
+          image: {{ .Values.dockerImage }}
           command: ["gunicorn -c gunicorn_config.py mysite.wsgi:application"]
           ports:
             - containerPort: 8000
