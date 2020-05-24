@@ -35,6 +35,8 @@ build:
     - helm template render --dry-run --debug ./helm_chart --set dockerImage=${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod
 
 deploy:
+  environment:
+    name: deploy
   only:
     - tags
   when: manual
