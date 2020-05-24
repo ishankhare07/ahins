@@ -12,13 +12,18 @@ cache:
 
 before_script:
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  - wget "https://get.helm.sh/${HELM_URL}"
+  - tar -zxvf "${HELM_URL}"
+  - cp ./linux-amd64/helm /usr/bin
 
 variables:
   REGISTRY_URL: "$CI_REGISTRY/ishankhare07"
+  HELM_URL: "helm-v3.2.1-linux-amd64.tar.gz"
 
 build:
   only:
-    - tags
+    #- tags
+    - define-ci-cd
   script:
     - echo "registry url ${CI_REGISTRY}"
     - docker build -f ./code/Dockerfile ./code -t "${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod"
