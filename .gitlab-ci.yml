@@ -39,4 +39,4 @@ deploy:
     - tags
   when: manual
   script:
-    - kubectl get nodes
+    - echo ${KUBECONFIG}
