@@ -3,6 +3,10 @@
 # https://hub.docker.com/r/library/python
 image: docker
 
+stages:
+  - build
+  - deploy
+
 services:
   - docker:dind
 
@@ -24,7 +28,9 @@ variables:
   REGISTRY_URL: "$CI_REGISTRY/ishankhare07"
   HELM_URL: "helm-v3.2.1-linux-amd64.tar.gz"
 
-build:
+build_and_push_to_registry:
+  stage:
+    - build
   only:
     - tags
     #- define-ci-cd
@@ -34,7 +40,9 @@ build:
     - docker push "${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod"
     - helm template render --dry-run --debug ./helm_chart --set dockerImage=${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod
 
-deploy:
+create_deploy_in_k8s:
+  stage:
+    - deploy
   environment:
     name: deploy
   only:
