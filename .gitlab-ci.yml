@@ -37,7 +37,6 @@ build:
 deploy:
   only:
     - tags
-  when:
-    - manual
+  when: manual
   script:
     - kubectl get nodes
