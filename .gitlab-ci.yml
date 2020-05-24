@@ -15,6 +15,9 @@ before_script:
   - wget "https://get.helm.sh/${HELM_URL}"
   - tar -zxvf "${HELM_URL}"
   - cp ./linux-amd64/helm /usr/bin
+  - curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+  - chmod +x ./kubectl
+  - sudo mv ./kubectl /usr/local/bin/kubectl
 
 variables:
   REGISTRY_URL: "$CI_REGISTRY/ishankhare07"
