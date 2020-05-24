@@ -12,6 +12,7 @@ cache:
 
 before_script:
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  - snap install helm --classic
 
 variables:
   REGISTRY_URL: "$CI_REGISTRY/ishankhare07"
