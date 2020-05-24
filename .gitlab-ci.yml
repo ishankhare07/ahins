@@ -22,9 +22,10 @@ variables:
 
 build:
   only:
-    #- tags
-    - define-ci-cd
+    - tags
+    #- define-ci-cd
   script:
     - echo "registry url ${CI_REGISTRY}"
     - docker build -f ./code/Dockerfile ./code -t "${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod"
     - docker push "${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod"
+    - helm template render --dry-run --debug ./helm_chart --set dockerImage=${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod
