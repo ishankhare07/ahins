@@ -9,7 +9,7 @@ google-auth==1.11.0
 google-cloud-core==1.2.0
 google-cloud-storage==1.25.0
 google-resumable-media==0.5.0
-googleapis-common-protos==1.51.0
+googleapis-common-protos==1.52.0
 gunicorn==19.7.1
 idna==2.8
 mistune==0.8.3
