@@ -17,8 +17,21 @@ spec:
       containers:
         - name: django
           image: {{ .Values.dockerImage }}
-          command: ["gunicorn -c gunicorn_config.py mysite.wsgi:application"]
+          workingDir: /code/mysite
+          command: ["gunicorn"]
+          args: 
+            - "-c"
+            - "gunicorn_config.py"
+            - "mysite.wsgi:application"
+          volumeMounts:
+            - name: secret
+              mountPath: "/secrets"
+              readOnly: true
           ports:
             - containerPort: 8000
+      volumes:
+        - name: secret
+          secret:
+            secretName: bucket-secret-2mb98dkfc8
       imagePullSecrets:
         - name: gitlab-registry
