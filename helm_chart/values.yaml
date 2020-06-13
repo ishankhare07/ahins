@@ -4,10 +4,6 @@
 
 replicaCount: 1
 
-image:
-  repository: nginx
-  pullPolicy: IfNotPresent
-
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -21,9 +17,6 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name:
 
-podSecurityContext: {}
-  # fsGroup: 2000
-
 securityContext: {}
   # capabilities:
   #   drop:
@@ -31,10 +24,6 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
-
-service:
-  type: ClusterIP
-  port: 80
 
 ingress:
   enabled: false
@@ -48,6 +37,14 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+
+
+fullnameOverride: postgres #ahins-pg
+global:
+  postgresql:
+    postgresqlDatabase: ahins
+    postgresqlPassword: example
+    postgresqlUsername: ahins
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

@@ -4,6 +4,23 @@ metadata:
   name: ahins-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/upstream-vhost: ishankhare.com
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            backend:
+              serviceName: ahins
+              servicePort: 80
+---
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ahins-gcs-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/rewrite-target: $1
     nginx.ingress.kubernetes.io/upstream-vhost: storage.googleapis.com
