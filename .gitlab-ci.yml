@@ -44,7 +44,6 @@ validate_cluster:
 
 plan_cluster:
   stage: plan
-  when: manual
   script:
     - cd infra
     - terraform init
@@ -52,6 +51,7 @@ plan_cluster:
 
 create_cluster:
   stage: apply
+  when: manual
   script:
     - cd infra
     - terraform init
