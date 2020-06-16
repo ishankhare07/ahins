@@ -37,6 +37,7 @@ plan_cluster:
   stage: provision
   when: manual
   script:
+    - echo $GOOGLE_APPLICATION_CREDENTIALS
     - terraform init ./infra
     - terraform plan
 
