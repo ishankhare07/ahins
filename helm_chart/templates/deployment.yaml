@@ -33,6 +33,8 @@ spec:
           args:
             - "manage.py"
             - "collectstatic"
+            - "--no-input"
+            - "--clear"
           volumeMounts:
             - name: secret
               mountPath: "/secrets"

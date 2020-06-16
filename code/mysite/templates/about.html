@@ -28,7 +28,8 @@
           </ul>
           <hr />
           <p>
-            Here's my most updated <a href="/resume.pdf">resume</a>.
+            {% load static %}
+            Here's my most updated <a href="{% static "resume.pdf" %}">resume</a>.
           </p>
           <p>
             I'm best reachable through email - &lt;me at this site dot com&gt;
