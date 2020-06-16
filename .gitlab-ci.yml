@@ -4,7 +4,10 @@
 image: docker
 
 stages:
-  - provision
+  - tf_validate
+  - tf_plan
+  - tf_create
+  - tf_destroy
   - build
   - deploy
 
@@ -34,20 +37,19 @@ variables:
 
 
 plan_cluster:
-  stage: provision
+  stage: tf_plan
   when: manual
   script:
     - echo $GCLOUD_SERVICE_ACCOUNT $GOOGLE_APPLICATION_CREDENTIALS
-    - cat $GCLOUD_SERVICE_ACCOUNT
     - terraform init ./infra
     - terraform plan
 
-create_cluster:
-  stage: provision
+validate_cluster:
+  stage: tf_validate
   when: manual
   script:
     - terraform init ./infra
-    - terraform apply --auto-approve
+    - terraform validate
 
 
 build_and_push_to_registry:
