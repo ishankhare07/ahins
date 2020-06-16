@@ -41,7 +41,8 @@ plan_cluster:
   when: manual
   script:
     - echo $GCLOUD_SERVICE_ACCOUNT $GOOGLE_APPLICATION_CREDENTIALS
-    - terraform init ./infra
+    - cd infra
+    - terraform init
     - terraform plan
 
 validate_cluster:
