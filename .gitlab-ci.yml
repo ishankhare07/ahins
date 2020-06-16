@@ -35,21 +35,21 @@ variables:
   REGISTRY_URL: "$CI_REGISTRY/ishankhare07"
   HELM_URL: "helm-v3.2.1-linux-amd64.tar.gz"
 
-validate_cluster:
+tf_validate:
   stage: validate
   script:
     - cd infra
     - terraform init
     - terraform validate
 
-plan_cluster:
+tf_plan:
   stage: plan
   script:
     - cd infra
     - terraform init
     - terraform plan
 
-create_cluster:
+tf_apply:
   stage: apply
   when: manual
   script:
@@ -58,11 +58,12 @@ create_cluster:
     - terraform plan
     - terraform apply --auto-approve
 
-delete_cluster:
+tf_destroy:
   stage: destroy
   when: manual
   script:
     - cd infra
+    - terraform init
     - terraform destroy --auto-approve
 
 build_and_push_to_registry:
