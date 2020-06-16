@@ -1,5 +1,4 @@
 provider "google" {
-    credentials = file("$GCLOUD_SERVICE_ACCOUNT")
 
     project = "tonal-baton-181908"
     region = "asia-south1"
