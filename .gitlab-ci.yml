@@ -38,8 +38,17 @@ plan_cluster:
   when: manual
   script:
     - echo $GCLOUD_SERVICE_ACCOUNT $GOOGLE_APPLICATION_CREDENTIALS
+    - cat $GCLOUD_SERVICE_ACCOUNT
     - terraform init ./infra
     - terraform plan
+
+create_cluster:
+  stage: provision
+  when: manual
+  script:
+    - terraform init ./infra
+    - terraform apply --auto-approve
+
 
 build_and_push_to_registry:
   stage: build
