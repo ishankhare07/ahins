@@ -39,6 +39,7 @@ validate_cluster:
   stage: validate
   script:
     - cd infra
+    - rm -rf .terraform
     - terraform init
     - terraform validate
 
