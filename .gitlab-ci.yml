@@ -39,7 +39,6 @@ validate_cluster:
   stage: validate
   script:
     - cd infra
-    - rm -rf .terraform
     - terraform init
     - terraform validate
 
@@ -64,8 +63,6 @@ delete_cluster:
   when: manual
   script:
     - cd infra
-    - terraform init
-    - terraform plan
     - terraform destroy --auto-approve
 
 build_and_push_to_registry:
