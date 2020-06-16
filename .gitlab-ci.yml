@@ -37,7 +37,7 @@ plan_cluster:
   stage: provision
   when: manual
   script:
-    - terraform init
+    - terraform init ./infra
     - terraform plan
 
 build_and_push_to_registry:
