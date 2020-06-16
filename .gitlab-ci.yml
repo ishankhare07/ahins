@@ -33,11 +33,12 @@ variables:
   HELM_URL: "helm-v3.2.1-linux-amd64.tar.gz"
 
 
-create_cluster:
+plan_cluster:
   stage: provision
   when: manual
   script:
     - terraform init
+    - terraform plan
 
 build_and_push_to_registry:
   stage: build
