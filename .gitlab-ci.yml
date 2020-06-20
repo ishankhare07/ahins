@@ -62,6 +62,8 @@ tf_apply:
 tf_destroy:
   stage: destroy
   when: manual
+  dependencies:
+    - tf_apply
   script:
     - cd infra
     - terraform init
