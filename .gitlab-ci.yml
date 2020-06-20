@@ -33,15 +33,8 @@ cache:
 variables:
   REGISTRY_URL: "$CI_REGISTRY/ishankhare07"
 
-tf_validate:
-  stage: validate
-  script:
-    - cd infra
-    - terraform init
-    - terraform validate
-
 tf_plan:
-  stage: provision
+  stage: validate
   dependencies:
     - tf_validate
   script:
