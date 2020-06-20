@@ -4,7 +4,7 @@
 image: registry.gitlab.com/ishankhare07/base-builder:0.1.1
 
 stages:
-  - validate
+  - plan
   - provision
   - test
   - build
@@ -35,11 +35,10 @@ variables:
 
 tf_plan:
   stage: validate
-  dependencies:
-    - tf_validate
   script:
     - cd infra
     - terraform init
+    - terraform validate
     - terraform plan
 
 tf_apply:
@@ -47,7 +46,6 @@ tf_apply:
   when: manual
   dependencies:
     - tf_plan
-    - tf_validate
   script:
     - cd infra
     - terraform init
@@ -58,7 +56,7 @@ tf_destroy:
   stage: provision
   when: manual
   dependencies:
-    - tf_apply
+    - tf_plan
   script:
     - cd infra
     - terraform init
