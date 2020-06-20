@@ -80,6 +80,16 @@ deploy_and_test_ingress:
     - make create_ingress_gcp create_echo_service_with_ingress_rule
     - make test_ingress_service
 
+delete_test_deploy:
+  stage: test
+  only:
+    - define-ci-cd
+  when: manual
+  environment:
+    name: deploy
+  script:
+    - make clean
+
 create_deploy_in_k8s:
   stage: deploy
   environment:
