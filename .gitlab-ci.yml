@@ -43,8 +43,6 @@ tf_plan:
 tf_apply:
   stage: provision
   when: manual
-  dependencies:
-    - tf_plan
   script:
     - cd infra
     - terraform init
@@ -54,8 +52,6 @@ tf_apply:
 tf_destroy:
   stage: provision
   when: manual
-  dependencies:
-    - tf_plan
   script:
     - cd infra
     - terraform init
