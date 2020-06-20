@@ -34,7 +34,6 @@ cache:
 
 variables:
   REGISTRY_URL: "$CI_REGISTRY/ishankhare07"
-  HELM_URL: "helm-v3.2.1-linux-amd64.tar.gz"
 
 tf_validate:
   stage: validate
@@ -85,6 +84,8 @@ deploy_and_test_ingress:
   only:
     - define-ci-cd
   when: manual
+  environment:
+    name: test
   dependencies:
     - tf_apply
   script:
