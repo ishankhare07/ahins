@@ -4,7 +4,6 @@
 image: registry.gitlab.com/ishankhare07/base-builder:0.1.1
 
 stages:
-  - plan
   - provision
   - test
   - build
@@ -34,7 +33,7 @@ variables:
   REGISTRY_URL: "$CI_REGISTRY/ishankhare07"
 
 tf_plan:
-  stage: plan
+  stage: provision
   script:
     - cd infra
     - terraform init
