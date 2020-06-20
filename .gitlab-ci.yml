@@ -4,11 +4,8 @@
 image: registry.gitlab.com/ishankhare07/base-builder:0.1.1
 
 stages:
-  - validate
-  - plan
-  - apply
+  - provision
   - test
-  - destroy
   - build
   - deploy
 
@@ -36,22 +33,27 @@ variables:
   REGISTRY_URL: "$CI_REGISTRY/ishankhare07"
 
 tf_validate:
-  stage: validate
+  stage: provision
   script:
     - cd infra
     - terraform init
     - terraform validate
 
 tf_plan:
-  stage: plan
+  stage: provision
+  dependencies:
+    - tf_validate
   script:
     - cd infra
     - terraform init
     - terraform plan
 
 tf_apply:
-  stage: apply
+  stage: provision
   when: manual
+  dependencies:
+    - tf_plan
+    - tf_validate
   script:
     - cd infra
     - terraform init
@@ -59,7 +61,7 @@ tf_apply:
     - terraform apply --auto-approve
 
 tf_destroy:
-  stage: destroy
+  stage: provision
   when: manual
   dependencies:
     - tf_apply
