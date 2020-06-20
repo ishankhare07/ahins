@@ -34,7 +34,7 @@ variables:
   REGISTRY_URL: "$CI_REGISTRY/ishankhare07"
 
 tf_plan:
-  stage: validate
+  stage: plan
   script:
     - cd infra
     - terraform init
