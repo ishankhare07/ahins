@@ -7,9 +7,9 @@ stages:
   - validate
   - plan
   - apply
+  - test
   - destroy
   - build
-  - test
   - deploy
 
 services:
