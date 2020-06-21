@@ -10,5 +10,5 @@ spec:
         paths:
           - path: /
             backend:
-              serviceName: http-echo
+              serviceName: http-echo-service
               servicePort: 5678
