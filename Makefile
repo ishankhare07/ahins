@@ -3,23 +3,22 @@ create_ingress_gcp:
 	# wait for ingress controller
 
 patch_ingress_service:
-	# kubectl apply -f kube/lb.yaml
 	kubectl patch svc ingress-nginx-controller -n ingress-nginx -p '{"spec": {"loadBalancerIP": "${STATIC_IP}"}}'
 
 remove_ingress_gcp:
 	kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
 
 remove_ingress_resources:
-	kubectl delete -f ./kube/deploy.yaml
+	kubectl delete -f ./test_infra/deploy.yaml
 	# next expose it with an ingress rule
-	kubectl delete -f ./kube/ingress.yaml
+	kubectl delete -f ./test_infra/ingress.yaml
 
 
 create_echo_service_with_ingress_rule:
 	# first create the deployment and service
-	kubectl apply -f ./kube/deploy.yaml
+	kubectl apply -f ./test_infra/deploy.yaml
 	# next expose it with an ingress rule
-	kubectl apply -f ./kube/ingress.yaml
+	kubectl apply -f ./test_infra/ingress.yaml
 
 nginx_controller_pod = $(shell kubectl get pods -n ingress-nginx --no-headers | grep 'nginx-controller' | cut -d' ' -f1)
 
