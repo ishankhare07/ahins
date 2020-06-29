@@ -73,6 +73,7 @@ build_and_push_to_registry:
 deploy_and_test_ingress:
   stage: test
   only:
+    - tags
     - define-ci-cd
   when: manual
   environment:
@@ -87,6 +88,7 @@ deploy_and_test_ingress:
 delete_test_deploy:
   stage: test
   only:
+    - tags
     - define-ci-cd
   when: manual
   environment:
