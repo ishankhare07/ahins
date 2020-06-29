@@ -1,7 +1,10 @@
 create_ingress_gcp:
 	kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
 	# wait for ingress controller
-	sleep 5
+
+patch_ingress_service:
+	# kubectl apply -f kube/lb.yaml
+	kubectl patch svc ingress-nginx-controller -n ingress-nginx -p '{"spec": {"loadBalancerIP": "${STATIC_IP}"}}'
 	# kubectl wait --for=condition=Running --timeout=2m pods -n ingress-nginx -l app.kubernetes.io/component=controller
 
 remove_ingress_gcp:
