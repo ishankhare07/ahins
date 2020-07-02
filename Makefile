@@ -9,7 +9,7 @@ patch_ingress_service:
 remove_ingress_gcp:
 	kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/cloud/deploy.yaml
 
-remove_ingress_resources:
+remove_echo_service_ingress:
 	kubectl delete -f ./test_infra/deploy.yaml
 	# next expose it with an ingress rule
 	kubectl delete -f ./test_infra/ingress.yaml
