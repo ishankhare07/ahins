@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ahins
+  labels:
+    app: django
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: django
+  template:
+    metadata:
+      labels:
+        app: django
+    spec:
+      initContainers:
+        - name: django-migrate
+          image: {{ .Values.dockerImage }}
+          workingDir: /code/mysite
+          command: ["python3"]
+          args:
+            - "manage.py"
+            - "migrate"
+          volumeMounts:
+            - name: secret
+              mountPath: "/secrets"
+              readOnly: true
+        - name: django-collectstatic
+          image: {{ .Values.dockerImage }}
+          workingDir: /code/mysite
+          command: ["python3"]
+          args:
+            - "manage.py"
+            - "collectstatic"
+            - "--no-input"
+            - "--clear"
+          volumeMounts:
+            - name: secret
+              mountPath: "/secrets"
+              readOnly: true
+      containers:
+        - name: django
+          image: {{ .Values.dockerImage }}
+          workingDir: /code/mysite
+          command: ["gunicorn"]
+          args: 
+            - "-c"
+            - "gunicorn_config.py"
+            - "mysite.wsgi:application"
+          volumeMounts:
+            - name: secret
+              mountPath: "/secrets"
+              readOnly: true
+          ports:
+            - containerPort: 8000
+      volumes:
+        - name: secret
+          secret:
+            secretName: bucket-secret-2mb98dkfc8
+      imagePullSecrets:
+        - name: gitlab-registry
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ahins
+spec:
+  selector:
+    app: django
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80

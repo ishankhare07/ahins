@@ -1,0 +1,90 @@
+# This file is a template, and might need editing before it works on your project.
+# Official framework image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/python
+image: registry.gitlab.com/ishankhare07/base-builder:0.1.1
+
+stages:
+  - provision
+  - test
+  - build
+  - deploy
+
+services:
+  - docker:dind
+
+variables:
+  REGISTRY_URL: "$CI_REGISTRY/ishankhare07"
+
+tf_plan:
+  stage: provision
+  when: manual
+  script:
+    - cd infra
+    - terraform init
+    - terraform validate
+    - terraform plan
+
+tf_apply:
+  stage: provision
+  when: manual
+  script:
+    - cd infra
+    - terraform init
+    - terraform plan
+    - terraform apply --auto-approve
+
+tf_destroy:
+  stage: provision
+  when: manual
+  script:
+    - cd infra
+    - terraform init
+    - terraform destroy --auto-approve
+
+build_and_push_to_registry:
+  stage: build
+  only:
+    - tags
+  environment:
+    name: deploy
+  script:
+    - echo "registry url ${CI_REGISTRY}"
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -f ./code/Dockerfile ./code -t "${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod"
+    - docker push "${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod"
+    - helm template render --dry-run --debug ./helm_chart --set dockerImage=${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod
+
+deploy_and_test_ingress:
+  stage: test
+  only:
+    - tags
+  when: manual
+  environment:
+    name: staging
+  script:
+    - make create_ingress_gcp
+    - kubectl wait --for=condition=Ready --timeout=30s pods -n ingress-nginx -l app.kubernetes.io/component=controller
+    - echo "${STATIC_IP}"
+    - make patch_ingress_service
+    - make create_echo_service_with_ingress_rule
+
+delete_test_deploy:
+  stage: test
+  only:
+    - tags
+  when: manual
+  environment:
+    name: deploy
+  script:
+    - make clean
+
+create_deploy_in_k8s:
+  stage: deploy
+  environment:
+    name: deploy
+  only:
+    - tags
+  when: manual
+  script:
+    - helm template ./helm_chart --set dockerImage=${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod | kubectl apply -f -
+    - kubectl get deploy

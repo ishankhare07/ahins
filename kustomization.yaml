@@ -1,0 +1,4 @@
+secretGenerator:
+- name: bucket-secret
+  files:
+  - ./secrets/bucket-secrets.json
