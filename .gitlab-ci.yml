@@ -5,7 +5,7 @@ image: registry.gitlab.com/ishankhare07/base-builder:0.1.1
 
 stages:
   - provision
-  - ingress_setup
+  - setup
   - test
   - build
   - deploy
@@ -49,7 +49,7 @@ tf_destroy:
     - terraform destroy --auto-approve
 
 create_and_patch_ingress:
-  stage: ingress_setup
+  stage: setup
   when: manual
   only:
     - tags
@@ -57,6 +57,17 @@ create_and_patch_ingress:
     name: deploy
   script:
     - make create_ingress_gcp patch_ingress_service
+
+create_secrets:
+  stage: setup
+  when: manual
+  only:
+    - tags
+  environment:
+    name: deploy
+  script:
+    - cat ${IMAGE_PULL_SECRET} | base64 -d | kubectl apply -f -
+    - cat ${BUCKET_SECRET} | base64 -d | kubectl apply -f -
 
 build_and_push_to_registry:
   stage: build
@@ -69,7 +80,7 @@ build_and_push_to_registry:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -f ./code/Dockerfile ./code -t "${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod"
     - docker push "${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod"
-    - helm template render --dry-run --debug ./helm_chart --set dockerImage=${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod
+
 
 deploy_and_test_ingress:
   stage: test
