@@ -18,6 +18,8 @@ variables:
 tf_plan:
   stage: provision
   when: manual
+  only:
+    - tags
   script:
     - cd infra
     - terraform init
@@ -27,6 +29,8 @@ tf_plan:
 tf_apply:
   stage: provision
   when: manual
+  only:
+    - tags
   script:
     - cd infra
     - terraform init
@@ -36,6 +40,8 @@ tf_apply:
 tf_destroy:
   stage: provision
   when: manual
+  only:
+    - tags
   script:
     - cd infra
     - terraform init
