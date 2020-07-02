@@ -66,8 +66,8 @@ create_secrets:
   environment:
     name: deploy
   script:
-    - cat ${IMAGE_PULL_SECRET} | base64 -d | kubectl apply -f -
-    - cat ${BUCKET_SECRET} | base64 -d | kubectl apply -f -
+    - echo ${IMAGE_PULL_SECRET} | base64 -d | kubectl apply -f -
+    - echo ${BUCKET_SECRET} | base64 -d | kubectl apply -f -
 
 build_and_push_to_registry:
   stage: build
@@ -100,7 +100,7 @@ delete_test_deploy:
   environment:
     name: deploy
   script:
-    - make clean
+    - make remove_echo_service_ingress
 
 create_deploy_in_k8s:
   stage: deploy
