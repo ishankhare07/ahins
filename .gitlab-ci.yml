@@ -41,6 +41,16 @@ tf_destroy:
     - terraform init
     - terraform destroy --auto-approve
 
+create_and_patch_ingress:
+  stage: provision
+  when: manual
+  only:
+    - tags
+  environment:
+    - deploy
+  script:
+    - make create_ingress_gcp patch_ingress_service
+
 build_and_push_to_registry:
   stage: build
   only:
@@ -62,10 +72,7 @@ deploy_and_test_ingress:
   environment:
     name: staging
   script:
-    - make create_ingress_gcp
-    - kubectl wait --for=condition=Ready --timeout=30s pods -n ingress-nginx -l app.kubernetes.io/component=controller
-    - echo "${STATIC_IP}"
-    - make patch_ingress_service
+    - make create_ingress_gcp patch_ingress_service
     - make create_echo_service_with_ingress_rule
 
 delete_test_deploy:
