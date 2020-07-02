@@ -5,6 +5,7 @@ image: registry.gitlab.com/ishankhare07/base-builder:0.1.1
 
 stages:
   - provision
+  - ingress_setup
   - test
   - build
   - deploy
@@ -18,6 +19,8 @@ variables:
 tf_plan:
   stage: provision
   when: manual
+  only:
+    - tags
   script:
     - cd infra
     - terraform init
@@ -27,6 +30,8 @@ tf_plan:
 tf_apply:
   stage: provision
   when: manual
+  only:
+    - tags
   script:
     - cd infra
     - terraform init
@@ -36,13 +41,15 @@ tf_apply:
 tf_destroy:
   stage: provision
   when: manual
+  only:
+    - tags
   script:
     - cd infra
     - terraform init
     - terraform destroy --auto-approve
 
 create_and_patch_ingress:
-  stage: deploy
+  stage: ingress_setup
   when: manual
   only:
     - tags
@@ -72,7 +79,6 @@ deploy_and_test_ingress:
   environment:
     name: staging
   script:
-    - make create_ingress_gcp patch_ingress_service
     - make create_echo_service_with_ingress_rule
 
 delete_test_deploy:
@@ -91,7 +97,7 @@ create_deploy_in_k8s:
     name: deploy
   only:
     - tags
-  when: manual
+  # when: manual
   script:
     - helm template ./helm_chart --set dockerImage=${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod | kubectl apply -f -
     - kubectl get deploy
