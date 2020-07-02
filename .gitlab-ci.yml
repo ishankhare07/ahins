@@ -42,7 +42,7 @@ tf_destroy:
     - terraform destroy --auto-approve
 
 create_and_patch_ingress:
-  stage: provision
+  stage: deploy
   when: manual
   only:
     - tags
