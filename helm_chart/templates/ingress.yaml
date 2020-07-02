@@ -1,0 +1,65 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ahins-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/upstream-vhost: ishankhare.com
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            backend:
+              serviceName: ahins
+              servicePort: 80
+---
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ahins-gcs-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/rewrite-target: $1
+    nginx.ingress.kubernetes.io/upstream-vhost: storage.googleapis.com
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /media(/.+)
+            backend:
+              serviceName: gcs-service
+              servicePort: 443
+
+
+
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: echo-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    - http:
+      paths:
+        - path: /
+          backend:
+            serviceName: http-echo-service
+            servicePort: 5678
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: gcs-service
+spec:
+  type: ExternalName
+  externalName: storage.googleapis.com
+  ports:
+    - name: https
+      port: 443
+
