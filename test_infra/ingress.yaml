@@ -8,7 +8,7 @@ spec:
   rules:
     - http:
         paths:
-          - path: /
+          - path: /test
             backend:
               serviceName: http-echo-service
               servicePort: 5678
