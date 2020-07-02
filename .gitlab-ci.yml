@@ -12,23 +12,6 @@ stages:
 services:
   - docker:dind
 
-cache:
-  paths:
-    - ~/.cache/pip/
-
-# before_script:
-#   - apk add curl
-#   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-#   - wget "https://get.helm.sh/${HELM_URL}"
-#   - tar -zxvf "${HELM_URL}"
-#   - cp ./linux-amd64/helm /usr/bin
-#   - curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
-#   - chmod +x ./kubectl
-#   - mv ./kubectl /usr/local/bin/kubectl
-#   - curl https://releases.hashicorp.com/terraform/0.12.26/terraform_0.12.26_linux_amd64.zip -O
-#   - unzip terraform_0.12.26_linux_amd64.zip
-#   - mv terraform /usr/local/bin/terraform
-
 variables:
   REGISTRY_URL: "$CI_REGISTRY/ishankhare07"
 
@@ -62,7 +45,8 @@ build_and_push_to_registry:
   stage: build
   only:
     - tags
-    #- define-ci-cd
+  environment:
+    name: deploy
   script:
     - echo "registry url ${CI_REGISTRY}"
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -74,10 +58,9 @@ deploy_and_test_ingress:
   stage: test
   only:
     - tags
-    - define-ci-cd
   when: manual
   environment:
-    name: deploy
+    name: staging
   script:
     - make create_ingress_gcp
     - kubectl wait --for=condition=Ready --timeout=30s pods -n ingress-nginx -l app.kubernetes.io/component=controller
@@ -89,7 +72,6 @@ delete_test_deploy:
   stage: test
   only:
     - tags
-    - define-ci-cd
   when: manual
   environment:
     name: deploy
