@@ -57,7 +57,7 @@ spec:
       volumes:
         - name: secret
           secret:
-            secretName: bucket-secret-2mb98dkfc8
+            secretName: bucket-secret
       imagePullSecrets:
         - name: gitlab-registry
 
