@@ -47,7 +47,7 @@ create_and_patch_ingress:
   only:
     - tags
   environment:
-    - deploy
+    name: deploy
   script:
     - make create_ingress_gcp patch_ingress_service
 
