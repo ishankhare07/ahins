@@ -19,6 +19,11 @@ spec:
           image: {{ .Values.dockerImage }}
           workingDir: /code/mysite
           command: ["python3"]
+          {{ if .Values.isProduction }}
+          env:
+            - name: IS_CONTAINER
+              value: true
+          {{ end }}
           args:
             - "manage.py"
             - "migrate"
@@ -44,6 +49,11 @@ spec:
           image: {{ .Values.dockerImage }}
           workingDir: /code/mysite
           command: ["gunicorn"]
+          {{ if .Values.isProduction }}
+          env:
+            - name: IS_CONTAINER
+              value: true
+          {{ end }}
           args: 
             - "-c"
             - "gunicorn_config.py"
