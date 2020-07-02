@@ -22,7 +22,7 @@ spec:
           {{ if .Values.isProduction }}
           env:
             - name: IS_CONTAINER
-              value: true
+              value: "true"
           {{ end }}
           args:
             - "manage.py"
@@ -52,7 +52,7 @@ spec:
           {{ if .Values.isProduction }}
           env:
             - name: IS_CONTAINER
-              value: true
+              value: "true"
           {{ end }}
           args: 
             - "-c"
