@@ -110,5 +110,5 @@ create_deploy_in_k8s:
     - tags
   # when: manual
   script:
-    - helm template ./helm_chart --set dockerImage=${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod | kubectl apply -f -
+    - helm template ./helm_chart --set dockerImage=${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod --set isProduction=true | kubectl apply -f -
     - kubectl get deploy
