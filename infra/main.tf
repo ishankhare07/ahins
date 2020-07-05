@@ -1,6 +1,6 @@
-// terraform {
-//   backend "gcs" {
-//     bucket = "ahins"
-//     prefix = "infra"
-//   }
-// }
+terraform {
+  backend "gcs" {
+    bucket = "ahins"
+    prefix = "infra"
+  }
+}
