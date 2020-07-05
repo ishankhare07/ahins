@@ -23,9 +23,9 @@ tf_plan:
     - tags
   script:
     - cd infra
-    - echo "NODE IP CIDR"; spicalc -ib ${TF_VAR_node_ip_range}
+    - echo "NODE IP CIDR"; sipcalc -ib ${TF_VAR_node_ip_range}
     - echo "POD IP CIDR"; sipcalc -ib ${TF_VAR_pod_ip_range}
-    - echo "SERVICE IP CIDR"; spicalc -ib ${TF_VAR_service_ip_range}
+    - echo "SERVICE IP CIDR"; sipcalc -ib ${TF_VAR_service_ip_range}
     - terraform init
     - terraform validate
     - terraform plan
@@ -37,9 +37,9 @@ tf_apply:
     - tags
   script:
     - cd infra
-    - echo "NODE IP CIDR"; spicalc -ib ${TF_VAR_node_ip_range}
+    - echo "NODE IP CIDR"; sipcalc -ib ${TF_VAR_node_ip_range}
     - echo "POD IP CIDR"; sipcalc -ib ${TF_VAR_pod_ip_range}
-    - echo "SERVICE IP CIDR"; spicalc -ib ${TF_VAR_service_ip_range}
+    - echo "SERVICE IP CIDR"; sipcalc -ib ${TF_VAR_service_ip_range}
     - terraform init
     - terraform plan
     - terraform apply --auto-approve

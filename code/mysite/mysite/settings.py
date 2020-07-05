@@ -91,7 +91,7 @@ if os.environ.get('IS_CONTAINER'):
             'NAME': 'ahins',
             'USER': 'ahins',
             'PASSWORD': 'chromiumcr47',
-            'HOST': '10.102.96.3',
+            'HOST': '10.102.97.3',
             'PORT': 5432
         }
     }
