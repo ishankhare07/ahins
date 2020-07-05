@@ -1,7 +1,7 @@
 # This file is a template, and might need editing before it works on your project.
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/python
-image: registry.gitlab.com/ishankhare07/base-builder:0.1.1
+image: registry.gitlab.com/ishankhare07/base-builder:0.2.0
 
 stages:
   - provision
@@ -23,6 +23,9 @@ tf_plan:
     - tags
   script:
     - cd infra
+    - echo "NODE IP CIDR"; spicalc -ib ${TF_VAR_node_ip_range}
+    - echo "POD IP CIDR"; sipcalc -ib ${TF_VAR_pod_ip_range}
+    - echo "SERVICE IP CIDR"; spicalc -ib ${TF_VAR_service_ip_range}
     - terraform init
     - terraform validate
     - terraform plan
@@ -34,6 +37,9 @@ tf_apply:
     - tags
   script:
     - cd infra
+    - echo "NODE IP CIDR"; spicalc -ib ${TF_VAR_node_ip_range}
+    - echo "POD IP CIDR"; sipcalc -ib ${TF_VAR_pod_ip_range}
+    - echo "SERVICE IP CIDR"; spicalc -ib ${TF_VAR_service_ip_range}
     - terraform init
     - terraform plan
     - terraform apply --auto-approve
