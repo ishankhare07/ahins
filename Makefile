@@ -26,4 +26,4 @@ nginx_controller_pod = $(shell kubectl get pods -n ingress-nginx --no-headers | 
 test_ingress_service:
 	kubectl exec -it -n ingress-nginx $(nginx_controller_pod) -- curl http-echo-service.default.svc.cluster.local:5678
 
-clean: remove_ingress_gcp remove_ingress_resources
+clean: remove_ingress_gcp remove_echo_service_ingress
