@@ -64,6 +64,16 @@ create_and_patch_ingress:
   script:
     - make create_ingress_gcp patch_ingress_service
 
+setup_cert_manager:
+  stage: setup
+  when: manual
+  only:
+    - tags
+  environment:
+    name: deploy
+  script:
+    - make install_cert_manager
+
 create_secrets:
   stage: setup
   when: manual

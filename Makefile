@@ -14,6 +14,15 @@ remove_echo_service_ingress:
 	# next expose it with an ingress rule
 	kubectl delete -f ./test_infra/ingress.yaml
 
+install_cert_manager:
+	kubectl create ns cert-manager
+	helm repo add jetstack https://charts.jetstack.io
+	helm repo update
+	helm install \
+		cert-manager jetstack/cert-manager \
+		--namespace cert-manager \
+		--version v0.15.1 \
+		--set installCRDs=true
 
 create_echo_service_with_ingress_rule:
 	# first create the deployment and service
