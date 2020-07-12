@@ -22,12 +22,23 @@ resource "google_container_cluster" "primary" {
       issue_client_certificate = false
     }
   }
+
+  private_cluster_config {
+    enable_private_nodes    = true
+    enable_private_endpoint = false
+    master_ipv4_cidr_block  = var.node_ip_range
+  }
+
+  ip_allocation_policy {
+    cluster_ipv4_cidr_block  = var.pod_ip_range
+    services_ipv4_cidr_block = var.service_ip_range
+  }
 }
 
 resource "google_container_node_pool" "primary" {
-  name = "primary-pool"
-  location = "asia-south-1"
-  cluster = google_container_cluster.primary.name
+  name       = "primary-pool"
+  location   = "asia-south-1"
+  cluster    = google_container_cluster.primary.name
   node_count = 1
 
   node_config {
@@ -45,14 +56,4 @@ resource "google_container_node_pool" "primary" {
     ]
   }
 
-  private_cluster_config {
-    enable_private_nodes    = true
-    enable_private_endpoint = false
-    master_ipv4_cidr_block  = var.node_ip_range
-  }
-
-  ip_allocation_policy {
-    cluster_ipv4_cidr_block  = var.pod_ip_range
-    services_ipv4_cidr_block = var.service_ip_range
-  }
 }
