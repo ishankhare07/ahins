@@ -29,6 +29,10 @@ class ImageUploadView(generics.RetrieveUpdateAPIView):
     queryset = Images.objects.all()
     serializer_class = ImagesUploadSerializer
 
+    def perform_create(self, serializer):
+        img_name = serializer.data.name
+        serializer.data.name = img.name.split('?')[0]
+        serializer.save()
 
 class TagsView(generics.ListCreateAPIView):
     queryset = Tags.objects.all()
