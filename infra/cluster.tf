@@ -12,6 +12,8 @@ resource "google_container_cluster" "primary" {
   initial_node_count        = 1
   default_max_pods_per_node = 32
 
+  remove_default_node_pool = true
+
   master_auth {
     username = ""
     password = ""
@@ -20,6 +22,13 @@ resource "google_container_cluster" "primary" {
       issue_client_certificate = false
     }
   }
+}
+
+resource "google_container_node_pool" "primary" {
+  name = "primary-pool"
+  location = "asia-south-1"
+  cluster = google_container_cluster.primary.name
+  node_count = 1
 
   node_config {
     machine_type = "e2-micro"
