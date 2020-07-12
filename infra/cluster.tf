@@ -37,7 +37,7 @@ resource "google_container_cluster" "primary" {
 
 resource "google_container_node_pool" "primary" {
   name       = "primary-pool"
-  location   = "asia-south-1"
+  location   = "asia-south1"
   cluster    = google_container_cluster.primary.name
   node_count = 1
 
@@ -55,5 +55,4 @@ resource "google_container_node_pool" "primary" {
       "https://www.googleapis.com/auth/monitoring",
     ]
   }
-
 }
