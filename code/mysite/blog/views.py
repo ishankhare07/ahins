@@ -31,7 +31,10 @@ class ImageUploadView(generics.RetrieveUpdateAPIView):
 
     def perform_create(self, serializer):
         img_name = serializer.data.name
-        serializer.data.name = img.name.split('?')[0]
+        serializer.data.name = img_name.split('?')[0]
+
+        url = serializer.data.image
+        serializer.data.image = url.split('?')[0]
         serializer.save()
 
 class TagsView(generics.ListCreateAPIView):
