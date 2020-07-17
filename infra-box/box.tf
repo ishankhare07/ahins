@@ -5,7 +5,7 @@ resource "google_compute_instance" "ahins" {
 
   boot_disk {
     initialize_params {
-      image = "ubuntu-minimal-2004-lts/ubuntu-minimal-2004-focal-v20200702"
+      image = "ubuntu-os-cloud/ubuntu-minimal-2004-lts"
     }
   }
 
