@@ -1,5 +1,5 @@
 resource "google_compute_instance" "ahins" {
-  name         = "test"
+  name         = "ahins"
   machine_type = "f1-micro"
   zone         = "asia-south1-a"
 
@@ -13,7 +13,7 @@ resource "google_compute_instance" "ahins" {
     network = "default"
 
     access_config {
-      // Ephemeral IP
+      nat_ip = google_compute_address.static.address
     }
   }
 
