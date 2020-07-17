@@ -1,7 +1,7 @@
 resource "google_compute_instance" "ahins" {
-  name = "test"
+  name         = "test"
   machine_type = "f1-micro"
-  zone = "asia-south1-a"
+  zone         = "asia-south1-a"
 
   boot_disk {
     initialize_params {
