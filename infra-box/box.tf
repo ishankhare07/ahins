@@ -13,7 +13,8 @@ resource "google_compute_instance" "ahins" {
     network = "default"
 
     access_config {
-      nat_ip = google_compute_address.static.address
+      nat_ip       = google_compute_address.static.address
+      network_tier = "STANDARD"
     }
   }
 
