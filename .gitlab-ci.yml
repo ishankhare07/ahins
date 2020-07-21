@@ -146,7 +146,7 @@ ssh_into_box:
   script:
     - eval $(ssh-agent)
     #- ssh-add - <<< ${CI_SSH_KEY}
-    - chmod 0644 /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
+    - chmod 0600 /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
     - ssh-add -k /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
     - touch hello_world
     - scp ./hello_world 35.207.254.2:~/
