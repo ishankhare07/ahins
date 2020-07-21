@@ -145,7 +145,7 @@ ssh_into_box:
     name: deploy
   script:
     - eval $(ssh-agent)
-    - ssh-add <(echo "${CI_SSH_KEY}")
+    - ssh-add - <<< ${CI_SSH_KEY}
     - touch hello_world
     - scp ./hello_world 35.207.254.2:~/
 
