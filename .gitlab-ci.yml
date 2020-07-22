@@ -149,7 +149,7 @@ ssh_into_box:
     - chmod 0600 /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
     - ssh-add -k /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
     - touch hello_world
-    - scp ./hello_world 35.207.254.2:~/
+    - scp -o StrictHostKeyChecking=no ./hello_world 35.207.254.2:~/
 
 deploy_and_test_ingress:
   stage: test
