@@ -138,9 +138,10 @@ build_and_push_to_registry_any_branch:
     - docker push "${REGISTRY_URL}/ahins:${CI_COMMIT_SHORT_SHA}.prod"
 
 ssh_into_box:
-  stage: deploy
+  stage: setup
   except:
     - tags
+  when: manual
   environment:
     name: deploy
   script:
@@ -148,8 +149,8 @@ ssh_into_box:
     #- ssh-add - <<< ${CI_SSH_KEY}
     - chmod 0600 /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
     - ssh-add -k /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
-    - touch hello_world
-    - scp -o StrictHostKeyChecking=no ./hello_world ishankhare@35.207.254.2:~/
+    - scp -o StrictHostKeyChecking=no ./post_ssh/setup_docker.sh ${VM_HOST_AND_IP}:~/post_ssh.sh
+    - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- ./post_ssh.sh
 
 deploy_and_test_ingress:
   stage: test
