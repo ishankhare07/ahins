@@ -1,6 +1,24 @@
 version: '3.1'
 services:
+    nginx-dev:
+        image: nginx:1.13.7
+        container_name: ahins-nginx-dev
+        ports:
+            - 80:80
+        volumes:
+            - ./code/mysite/static:/resources/static
+            - ./media:/resources/media
+            - ./nginx/dev.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - django-dev
+        networks:
+            ahins:
+                aliases:
+                    - nginxdev
     nginx-prod:
+        build:
+          context: ./nginx
+          dockerfile: Dockerfile
         image: registry.gitlab.com/ishankhare07/ahins/nginx:v0.4.1.prod
         # image: nginx:1.13.7
         container_name: ahins-nginx-prod
@@ -35,6 +53,9 @@ services:
                 aliases:
                     - postgres
     django:
+        build:
+            context: ./code
+            dockerfile: Dockerfile
         image: {{ .Values.dockerImage }}
         container_name: ahins-prod
         working_dir: /code/mysite
@@ -47,5 +68,26 @@ services:
             ahins:
                 aliases:
                     - djangoprod
+    django-dev:
+        build:
+            context: ./code
+            dockerfile: Dockerfile
+        image: registry.gitlab.com/ishankhare07/ahins:v0.1.0.dev
+        container_name: ahins-dev
+        working_dir: /code/mysite
+        environment:
+            - IS_DEV_ENV=True
+        command: python manage.py runserver 0.0.0.0:80
+        depends_on:
+            - db
+        volumes:
+            - ./code:/code
+            - ./media:/code/mysite/media
+            - ./secrets:/secrets
+        networks:
+            ahins:
+                aliases:
+                    - djangodev
+
 networks:
     ahins:
