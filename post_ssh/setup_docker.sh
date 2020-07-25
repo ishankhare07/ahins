@@ -16,3 +16,5 @@ sudo add-apt-repository \
 
 sudo apt update
 sudo apt install -y docker-ce docker-ce-cli 
+sudo usermod -aG docker ishankhare
+docker run hello-world
