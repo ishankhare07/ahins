@@ -149,6 +149,7 @@ ssh_into_box:
     #- ssh-add - <<< ${CI_SSH_KEY}
     - chmod 0600 /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
     - ssh-add -k /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
+    - echo ${VM_HOST_AND_IP}
     - scp -o StrictHostKeyChecking=no ./post_ssh/setup_docker.sh ${VM_HOST_AND_IP}:~/
     - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- ./post_ssh.sh
 
