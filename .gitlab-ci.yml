@@ -16,6 +16,11 @@ services:
 variables:
   REGISTRY_URL: "$CI_REGISTRY/ishankhare07"
 
+before_script:
+  - eval $(ssh-agent)
+  - chmod 0600 /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
+  - ssh-add -k /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
+
 tf_plan:
   stage: provision
   when: manual
@@ -145,13 +150,18 @@ setup_docker:
   environment:
     name: deploy
   script:
-    - eval $(ssh-agent)
-    #- ssh-add - <<< ${CI_SSH_KEY}
-    - chmod 0600 /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
-    - ssh-add -k /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
-    - scp -o StrictHostKeyChecking=no ./post_ssh/setup_docker.sh ishankhare@35.207.254.2:~/
-    - ssh -o StrictHostKeyChecking=no ishankhare@35.207.254.2 -- 'chmod +x setup_docker.sh; ./setup_docker.sh'
-    - ssh -o StrictHostKeyChecking=no ishankhare@35.207.254.2 -- 'docker run hello-world'
+    - scp -o StrictHostKeyChecking=no ./post_ssh/setup_docker.sh ${VM_HOST_AND_IP}:~/
+    - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- 'chmod +x setup_docker.sh; ./setup_docker.sh'
+    - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- 'docker run hello-world'
+
+deploy_to_box:
+  stage: deploy
+  when: manual
+  environment:
+    name: deploy
+  script:
+    - helm template ./docker --set dockerImage="${REGISTRY_URL}/ahins:${CI_COMMIT_SHORT_SHA}.prod" > docker-compose.yaml
+    - scp -o StrictHostKeyChecking=no ./docker-compose.yaml ${VM_HOST_AND_IP}:~/
 
 deploy_and_test_ingress:
   stage: test
