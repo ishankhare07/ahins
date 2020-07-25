@@ -20,6 +20,8 @@ before_script:
   - eval $(ssh-agent)
   - chmod 0600 /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
   - ssh-add -k /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
+  # login to docker
+  - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- 'docker login registry.gitlab.com -u ishankhare07 -p ${DOCKER_REGISTRY_PASSWORD}'
 
 tf_plan:
   stage: provision
