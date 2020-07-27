@@ -42,7 +42,7 @@ services:
             - IS_CONTAINER=True
         command: gunicorn -c gunicorn_config.py mysite.wsgi:application
         volumes:
-            - secrets:/secrets
+            - $HOME/secrets:/secrets
         networks:
             ahins:
                 aliases:
