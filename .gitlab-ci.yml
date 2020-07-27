@@ -155,7 +155,7 @@ create_secrets:
   script:
     #- echo ${IMAGE_PULL_SECRET} | base64 -d | kubectl apply -f -
     #- echo ${BUCKET_SECRET} | base64 -d | kubectl apply -f -
-    - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- 'touch /secrets/bucket-secrets.json; echo ${BUCKET_SECRET_RAW} | base64 -d > /secrets/bucket-secrets.json'
+    - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- 'sudo mkdir /secrets; sudo touch /secrets/bucket-secrets.json; echo ${BUCKET_SECRET_RAW} | base64 -d > /secrets/bucket-secrets.json'
 
 deploy_to_box:
   stage: deploy
