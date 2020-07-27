@@ -107,17 +107,6 @@ setup_cert_manager:
   script:
     - make install_cert_manager
 
-create_secrets:
-  stage: setup
-  when: manual
-  only:
-    - tags
-  environment:
-    name: deploy
-  script:
-    - echo ${IMAGE_PULL_SECRET} | base64 -d | kubectl apply -f -
-    - echo ${BUCKET_SECRET} | base64 -d | kubectl apply -f -
-
 build_and_push_to_registry:
   stage: build
   only:
@@ -155,6 +144,18 @@ setup_docker:
     - scp -o StrictHostKeyChecking=no ./post_ssh/setup_docker.sh ${VM_HOST_AND_IP}:~/
     - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- 'chmod +x setup_docker.sh; ./setup_docker.sh'
     - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- 'docker run hello-world'
+
+create_secrets:
+  stage: setup
+  when: manual
+  # only:
+  #  - tags
+  environment:
+    name: deploy
+  script:
+    #- echo ${IMAGE_PULL_SECRET} | base64 -d | kubectl apply -f -
+    #- echo ${BUCKET_SECRET} | base64 -d | kubectl apply -f -
+    - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- "echo ${BUCKET_SECRET_RAW} | base64 -d > /secrets/bucket-secrets.json"
 
 deploy_to_box:
   stage: deploy
