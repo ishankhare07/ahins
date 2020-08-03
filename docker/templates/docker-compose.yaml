@@ -41,6 +41,8 @@ services:
         environment:
             - IS_CONTAINER=True
         command: gunicorn -c gunicorn_config.py mysite.wsgi:application
+        ports:
+            - 8080:80
         volumes:
             - $HOME/secrets:/secrets
         networks:
