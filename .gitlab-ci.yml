@@ -178,6 +178,7 @@ deploy_to_box:
   script:
     - helm template ./docker --set dockerImage="${REGISTRY_URL}/ahins:${CI_COMMIT_SHORT_SHA}.prod" > docker-compose.yaml
     - scp -o StrictHostKeyChecking=no ./docker-compose.yaml ${VM_HOST_AND_IP}:~/
+    - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- "docker-compose stop; docker-compose up -d django"
 
 deploy_nginx_conf_to_box:
   stage: deploy
