@@ -179,6 +179,15 @@ deploy_to_box:
     - helm template ./docker --set dockerImage="${REGISTRY_URL}/ahins:${CI_COMMIT_SHORT_SHA}.prod" > docker-compose.yaml
     - scp -o StrictHostKeyChecking=no ./docker-compose.yaml ${VM_HOST_AND_IP}:~/
 
+deploy_nginx_conf_to_box:
+  stage: deploy
+  when: manual
+  environment:
+    name: deploy
+  script:
+    - scp -o StrictHostKeyChecking=no ./nginx/prod.conf ${VM_HOST_AND_IP}:/etc/nginx/conf.d/ishankhare.dev.conf
+    - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- "sudo /etc/init.d/nginx reload"
+
 deploy_and_test_ingress:
   stage: test
   only:
