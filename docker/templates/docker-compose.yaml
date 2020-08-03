@@ -38,6 +38,8 @@ services:
         image: {{ .Values.dockerImage }}
         container_name: ahins-prod
         working_dir: /code/mysite
+        depends_on:
+            - db
         environment:
             - IS_CONTAINER=True
         command: gunicorn -c gunicorn_config.py mysite.wsgi:application
