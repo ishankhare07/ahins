@@ -145,6 +145,17 @@ setup_docker:
     - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- 'chmod +x setup_docker.sh; ./setup_docker.sh'
     - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- 'docker run hello-world'
 
+setup_certbot:
+  stage: setup
+  except:
+    - tags
+  when: manual
+  environment:
+    name: deploy
+  script:
+    - scp -o StrictHostKeyChecking=no ./post_ssh/setup_certbot.sh ${VM_HOST_AND_IP}:~/
+    - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- 'chmod +x setup_certbot.sh; ./setup_certbot.sh'
+
 create_secrets:
   stage: setup
   when: manual
