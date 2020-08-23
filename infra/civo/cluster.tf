@@ -1,5 +1,5 @@
 provider "civo" {
-
+    token = var.civo_token
 }
 
 resource "civo_kubernetes_cluster" "ahins" {
