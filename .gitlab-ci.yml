@@ -37,7 +37,7 @@ tf_plan_civo:
     - terraform validate
     - terraform plan
 
-tf_plan_civo:
+tf_apply_civo:
   stage: provision
   when: manual
   script:
