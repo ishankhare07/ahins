@@ -130,7 +130,8 @@ k8s:create_and_patch_ingress:
   environment:
     name: deploy
   script:
-    - make create_ingress_gcp patch_ingress_service
+    - make create_ingress_gcp 
+    #- make patch_ingress_service
 
 k8s:setup_cert_manager:
   stage: setup-post-ingress
