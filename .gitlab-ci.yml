@@ -5,7 +5,9 @@ image: registry.gitlab.com/ishankhare07/base-builder:0.2.1
 
 stages:
   - provision
+  - setup-ingress
   - setup
+  - setup-post-ingress
   - test
   - build
   - deploy
@@ -122,7 +124,7 @@ gce:tf_destroy_box:
     - terraform destroy --auto-approve
 
 k8s:create_and_patch_ingress:
-  stage: setup
+  stage: setup-ingress
   when: manual
   #only:
   #  - tags
@@ -132,7 +134,7 @@ k8s:create_and_patch_ingress:
     - make create_ingress_gcp patch_ingress_service
 
 k8s:setup_cert_manager:
-  stage: setup
+  stage: setup-post-ingress
   when: manual
   #only:
   #  - tags
