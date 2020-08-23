@@ -124,8 +124,8 @@ tf_destroy_box:
 create_and_patch_ingress:
   stage: setup
   when: manual
-  only:
-    - tags
+  #only:
+  #  - tags
   environment:
     name: deploy
   script:
@@ -134,8 +134,8 @@ create_and_patch_ingress:
 setup_cert_manager:
   stage: setup
   when: manual
-  only:
-    - tags
+  #only:
+  #  - tags
   environment:
     name: deploy
   script:
@@ -143,8 +143,8 @@ setup_cert_manager:
 
 build_and_push_to_registry:
   stage: build
-  only:
-    - tags
+  #only:
+  #  - tags
   when: manual
   environment:
     name: deploy
