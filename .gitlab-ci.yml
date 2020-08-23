@@ -23,8 +23,7 @@ before_script:
   # login to docker
   - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- "docker login registry.gitlab.com -u ishankhare07 -p ${DOCKER_REGISTRY_PASSWORD}"
   # copy civo terraform plugin to the infra/civo/.terraform/plugins directory
-  - mkdir -p infra/civo/.terraform/plugins
-  - cp -r /terraform-provider-civo infra/civo/.terraform/plugins/
+  - cp -r /terraform-provider-civo infra/civo/
 
 tf_plan_civo:
   stage: provision
