@@ -25,7 +25,7 @@ before_script:
   # copy civo terraform plugin to the infra/civo/.terraform/plugins directory
   - cp -r /terraform-provider-civo infra/civo/
 
-tf_plan_civo:
+civo:k8s:tf_plan:
   stage: provision
   when: manual
   script:
@@ -37,7 +37,7 @@ tf_plan_civo:
     - terraform validate
     - terraform plan
 
-tf_apply_civo:
+civo:k8s:tf_apply:
   stage: provision
   when: manual
   script:
@@ -49,7 +49,7 @@ tf_apply_civo:
     - terraform plan
     - terraform apply --auto-approve
 
-tf_destroy_civo:
+civo:k8s:tf_destroy:
   stage: provision
   when: manual
   script:
@@ -57,7 +57,7 @@ tf_destroy_civo:
     - terraform init
     - terraform destroy --auto-approve
 
-tf_plan:
+gke:k8s:tf_plan:
   stage: provision
   when: manual
   only:
@@ -71,7 +71,7 @@ tf_plan:
     - terraform validate
     - terraform plan
 
-tf_apply:
+gke:k8s:tf_apply:
   stage: provision
   when: manual
   only:
@@ -85,7 +85,7 @@ tf_apply:
     - terraform plan
     - terraform apply --auto-approve
 
-tf_destroy:
+gke:k8s:tf_destroy:
   stage: provision
   when: manual
   only:
@@ -95,7 +95,7 @@ tf_destroy:
     - terraform init
     - terraform destroy --auto-approve
 
-tf_plan_box:
+gce:tf_plan_box:
   stage: provision
   when: manual
   script:
@@ -104,7 +104,7 @@ tf_plan_box:
     - terraform validate
     - terraform plan
 
-tf_apply_box:
+gce:tf_apply_box:
   stage: provision
   when: manual
   script:
@@ -113,7 +113,7 @@ tf_apply_box:
     - terraform validate
     - terraform apply --auto-approve
 
-tf_destroy_box:
+gce:tf_destroy_box:
   stage: provision
   when: manual
   script:
@@ -121,7 +121,7 @@ tf_destroy_box:
     - terraform init
     - terraform destroy --auto-approve
 
-create_and_patch_ingress:
+k8s:create_and_patch_ingress:
   stage: setup
   when: manual
   #only:
@@ -131,7 +131,7 @@ create_and_patch_ingress:
   script:
     - make create_ingress_gcp patch_ingress_service
 
-setup_cert_manager:
+k8s:setup_cert_manager:
   stage: setup
   when: manual
   #only:
@@ -141,7 +141,7 @@ setup_cert_manager:
   script:
     - make install_cert_manager
 
-build_and_push_to_registry:
+docker:build_and_push_to_registry:
   stage: build
   #only:
   #  - tags
@@ -154,7 +154,7 @@ build_and_push_to_registry:
     - docker build -f ./code/Dockerfile ./code -t "${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod"
     - docker push "${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod"
 
-build_and_push_to_registry_any_branch:
+docker:build_and_push_to_registry_any_branch:
   stage: build
   except:
     - tags
@@ -167,7 +167,7 @@ build_and_push_to_registry_any_branch:
     - docker build -f ./code/Dockerfile ./code -t "${REGISTRY_URL}/ahins:${CI_COMMIT_SHORT_SHA}.prod"
     - docker push "${REGISTRY_URL}/ahins:${CI_COMMIT_SHORT_SHA}.prod"
 
-setup_docker:
+gce:setup_docker:
   stage: setup
   except:
     - tags
@@ -179,7 +179,7 @@ setup_docker:
     - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- 'chmod +x setup_docker.sh; ./setup_docker.sh'
     - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- 'docker run hello-world'
 
-setup_certbot:
+gce:setup_certbot:
   stage: setup
   except:
     - tags
@@ -190,7 +190,18 @@ setup_certbot:
     - scp -o StrictHostKeyChecking=no ./post_ssh/setup_certbot.sh ${VM_HOST_AND_IP}:~/
     - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- 'chmod +x setup_certbot.sh; ./setup_certbot.sh'
 
-create_secrets:
+k8s:create_secrets:
+  stage: setup
+  when: manual
+  # only:
+  #  - tags
+  environment:
+    name: deploy
+  script:
+    - echo ${IMAGE_PULL_SECRET} | base64 -d | kubectl apply -f -
+    - echo ${BUCKET_SECRET} | base64 -d | kubectl apply -f -
+
+gce:create_secrets:
   stage: setup
   when: manual
   # only:
@@ -204,7 +215,7 @@ create_secrets:
     - scp -o StrictHostKeyChecking=no /builds/ishankhare07/ahins.tmp/BUCKET_SECRET_RAW ${VM_HOST_AND_IP}:~/secrets/bucket-secrets.raw
     - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- "base64 -d secrets/bucket-secrets.raw > secrets/bucket-secrets.json"
 
-deploy_to_box:
+gce:deploy_to_box:
   stage: deploy
   when: manual
   environment:
@@ -214,7 +225,7 @@ deploy_to_box:
     - scp -o StrictHostKeyChecking=no ./docker-compose.yaml ${VM_HOST_AND_IP}:~/
     - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- "docker-compose stop; docker-compose up -d django"
 
-deploy_nginx_conf_to_box:
+gce:deploy_nginx_conf_to_box:
   stage: deploy
   when: manual
   environment:
@@ -223,7 +234,7 @@ deploy_nginx_conf_to_box:
     - scp -o StrictHostKeyChecking=no ./nginx/prod.conf ${VM_HOST_AND_IP}:~/ishankhare.dev.conf
     - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- "sudo cp ~/ishankhare.dev.conf /etc/nginx/conf.d/ishankhare.dev.conf; sudo /etc/init.d/nginx reload"
 
-deploy_and_test_ingress:
+k8s:deploy_and_test_ingress:
   stage: test
   only:
     - tags
@@ -233,7 +244,7 @@ deploy_and_test_ingress:
   script:
     - make create_echo_service_with_ingress_rule
 
-delete_test_deploy:
+k8s:delete_test_deploy:
   stage: test
   only:
     - tags
@@ -243,7 +254,7 @@ delete_test_deploy:
   script:
     - make remove_echo_service_ingress
 
-create_deploy_in_k8s:
+k8s:create_deploy_in_k8s:
   stage: deploy
   environment:
     name: deploy
