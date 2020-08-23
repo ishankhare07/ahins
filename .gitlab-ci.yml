@@ -27,16 +27,35 @@ before_script:
 
 tf_plan_civo:
   stage: provision
-  when: always
+  when: manual
   script:
     - cd infra/civo
     - echo "NODE IP CIDR"; sipcalc -ib ${TF_VAR_node_ip_range}
     - echo "POD IP CIDR"; sipcalc -ib ${TF_VAR_pod_ip_range}
     - echo "SERVICE IP CIDR"; sipcalc -ib ${TF_VAR_service_ip_range}
-    - echo "token" $TF_VAR_token
     - terraform init
     - terraform validate
     - terraform plan
+
+tf_plan_civo:
+  stage: provision
+  when: manual
+  script:
+    - cd infra/civo
+    - echo "NODE IP CIDR"; sipcalc -ib ${TF_VAR_node_ip_range}
+    - echo "POD IP CIDR"; sipcalc -ib ${TF_VAR_pod_ip_range}
+    - echo "SERVICE IP CIDR"; sipcalc -ib ${TF_VAR_service_ip_range}
+    - terraform init
+    - terraform plan
+    - terraform apply --auto-approve
+
+tf_destroy_civo:
+  stage: provision
+  when: manual
+  script:
+    - cd infra/civo
+    - terraform init
+    - terraform destroy --auto-approve
 
 tf_plan:
   stage: provision
