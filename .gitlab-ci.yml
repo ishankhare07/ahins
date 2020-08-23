@@ -29,8 +29,6 @@ before_script:
 tf_plan_civo:
   stage: provision
   when: manual
-  only:
-    - tags
   script:
     - cd infra/civo
     - echo "NODE IP CIDR"; sipcalc -ib ${TF_VAR_node_ip_range}
