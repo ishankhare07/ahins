@@ -1,7 +1,7 @@
 # This file is a template, and might need editing before it works on your project.
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/python
-image: registry.gitlab.com/ishankhare07/base-builder:0.2.0
+image: registry.gitlab.com/ishankhare07/base-builder:0.2.1
 
 stages:
   - provision
