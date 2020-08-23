@@ -4,7 +4,7 @@ provider "civo" {
 
 resource "civo_kubernetes_cluster" "ahins" {
     name = "ahins"
-    applications = "Traefik, Metrics"
+    applications = "Metrics"
     num_target_nodes = 4
     target_nodes_size = "g2.small"
 }
