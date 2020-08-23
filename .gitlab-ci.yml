@@ -22,6 +22,23 @@ before_script:
   - ssh-add -k /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
   # login to docker
   - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- "docker login registry.gitlab.com -u ishankhare07 -p ${DOCKER_REGISTRY_PASSWORD}"
+  # copy civo terraform plugin to the infra/civo/.terraform/plugins directory
+  - mkdir -p infra/civo/.terraform/plugins
+  - cp -r /terraform-provider-civo infra/civo/.terraform/plugins/
+
+tf_plan_civo:
+  stage: provision
+  when: manual
+  only:
+    - tags
+  script:
+    - cd infra/civo
+    - echo "NODE IP CIDR"; sipcalc -ib ${TF_VAR_node_ip_range}
+    - echo "POD IP CIDR"; sipcalc -ib ${TF_VAR_pod_ip_range}
+    - echo "SERVICE IP CIDR"; sipcalc -ib ${TF_VAR_service_ip_range}
+    - terraform init
+    - terraform validate
+    - terraform plan
 
 tf_plan:
   stage: provision
