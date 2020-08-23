@@ -33,7 +33,6 @@ tf_plan_civo:
     - echo "NODE IP CIDR"; sipcalc -ib ${TF_VAR_node_ip_range}
     - echo "POD IP CIDR"; sipcalc -ib ${TF_VAR_pod_ip_range}
     - echo "SERVICE IP CIDR"; sipcalc -ib ${TF_VAR_service_ip_range}
-    - ls -a .terraform/plugins
     - terraform init
     - terraform validate
     - terraform plan
