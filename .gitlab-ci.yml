@@ -6,7 +6,6 @@ image: registry.gitlab.com/ishankhare07/base-builder:0.2.1
 stages:
   - provision
   - setup
-  - setup-post-ingress
   - test
   - build
   - deploy
@@ -134,7 +133,7 @@ k8s:create_and_patch_ingress:
     #- make patch_ingress_service
 
 k8s:setup_cert_manager:
-  stage: setup-post-ingress
+  stage: setup
   when: manual
   #only:
   #  - tags
