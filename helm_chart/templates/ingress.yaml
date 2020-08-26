@@ -5,11 +5,11 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/upstream-vhost: ishankhare.com
-    cert-manager.io/issuer: "letsencrypt-prod"
+    cert-manager.io/issuer: "letsencrypt-staging"
 spec:
   tls:
     - hosts:
-      - ishankhare.dev
+      - staging.ishankhare.dev
       secretName: ahins-staging
   rules:
     - host: ishankhare.dev
@@ -30,11 +30,11 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/rewrite-target: $1
     nginx.ingress.kubernetes.io/upstream-vhost: storage.googleapis.com
-    cert-manager.io/issuer: "letsencrypt-prod"
+    cert-manager.io/issuer: "letsencrypt-staging"
 spec:
   tls:
     - hosts:
-      - ishankhare.dev
+      - staging.ishankhare.dev
       secretName: ahins-staging
   rules:
     - host: ishankhare.dev
