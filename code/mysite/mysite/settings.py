@@ -91,7 +91,7 @@ if os.environ.get('IS_CONTAINER'):
             'NAME': 'ahins',
             'USER': 'ahins',
             'PASSWORD': 'example',
-            'HOST': 'postgres',
+            'HOST': 'postgres-ahins',
             'PORT': 5432
         }
     }
