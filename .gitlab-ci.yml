@@ -203,6 +203,15 @@ k8s:create_secrets:
     - echo ${IMAGE_PULL_SECRET} | base64 -d | kubectl apply -f -
     - echo ${BUCKET_SECRET} | base64 -d | kubectl apply -f -
 
+k8s:setup_postgres:
+  stage: setup
+  when: manual
+  environment:
+    name: deploy
+  script:
+    - helm repo add bitnami https://charts.bitnami.com/bitnami
+    - helm install -f overrides/postgres.yaml --set global.postgresql.postgresqlPassword=${POSTGRESQL_PASSWORD} postgres bitnami/postgresql
+
 gce:create_secrets:
   stage: setup
   when: manual
