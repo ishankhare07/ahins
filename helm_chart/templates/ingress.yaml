@@ -12,7 +12,7 @@ spec:
       - staging.ishankhare.dev
       secretName: ahins-prod
   rules:
-    - host: ishankhare.dev
+    - host: staging.ishankhare.dev
       http:
         paths:
           - path: /
@@ -37,7 +37,7 @@ spec:
       - staging.ishankhare.dev
       secretName: ahins-prod
   rules:
-    - host: ishankhare.dev
+    - host: staging.ishankhare.dev
       http:
         paths:
           - path: /media(/.+)
