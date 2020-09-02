@@ -9,8 +9,13 @@ metadata:
 spec:
   tls:
     - hosts:
-      - staging.ishankhare.dev
+      {{- if .Values.isProduction }}
+      - ishankhare.dev
       secretName: ahins-prod
+      {{- else -}}
+      - staging.ishankhare.dev
+      secretName: ahins-staging
+      {{- end }}
   rules:
     - host: staging.ishankhare.dev
       http:
