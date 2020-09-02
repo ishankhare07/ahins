@@ -288,7 +288,7 @@ k8s:create_deploy_in_k8s_any_branch:
   environment:
     name: staging
   # only:
-  #   - tags
+  # - develop
   # when: manual
   script:
     - helm template ./helm_chart --set dockerImage=${REGISTRY_URL}/ahins:${CI_COMMIT_SHORT_SHA}.prod --set isProduction=false | kubectl apply -f -

@@ -1,15 +1,15 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: ahins-ingress
+  {{ if .Values.isProduction -}}
+    name: ahins-ingress
+  {{- else -}}
+    name: ahins-ingress-staging
+  {{- end }}
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/upstream-vhost: ishankhare.com
-    {{ if .Values.isProduction -}}
-      cert-manager.io/issuer: "letsencrypt-prod"
-    {{- else -}}
-      cert-manager.io/issuer: "letsencrypt-staging"
-    {{- end }}
+    cert-manager.io/issuer: "letsencrypt-prod"
 spec:
   tls:
     - hosts:
@@ -37,17 +37,17 @@ spec:
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: ahins-gcs-ingress
+  {{ if .Values.isProduction -}}
+    name: ahins-ingress
+  {{- else -}}
+    name: ahins-ingress-staging
+  {{- end }}
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/rewrite-target: $1
     nginx.ingress.kubernetes.io/upstream-vhost: storage.googleapis.com
-    {{ if .Values.isProduction -}}
-      cert-manager.io/issuer: "letsencrypt-prod"
-    {{- else -}}
-      cert-manager.io/issuer: "letsencrypt-staging"
-    {{- end }}
+    cert-manager.io/issuer: "letsencrypt-prod"
 spec:
   tls:
     - hosts:
