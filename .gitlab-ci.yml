@@ -17,11 +17,11 @@ variables:
   REGISTRY_URL: "$CI_REGISTRY/ishankhare07"
 
 before_script:
-  - eval $(ssh-agent)
-  - chmod 0600 /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
-  - ssh-add -k /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
+  # - eval $(ssh-agent)
+  # - chmod 0600 /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
+  # - ssh-add -k /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
   # login to docker
-  - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- "docker login registry.gitlab.com -u ishankhare07 -p ${DOCKER_REGISTRY_PASSWORD}"
+  # - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- "docker login registry.gitlab.com -u ishankhare07 -p ${DOCKER_REGISTRY_PASSWORD}"
   # copy civo terraform plugin to the infra/civo/.terraform/plugins directory
   - cp -r /terraform-provider-civo infra/civo/
 
