@@ -38,9 +38,9 @@ apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   {{ if .Values.isProduction -}}
-    name: ahins-ingress
+    name: ahins-gcs-ingress
   {{- else -}}
-    name: ahins-ingress-staging
+name: ahins-gcs-ingress-staging
   {{- end }}
   annotations:
     kubernetes.io/ingress.class: "nginx"
