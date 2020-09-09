@@ -28,8 +28,6 @@ before_script:
 civo:k8s:tf_plan:
   stage: provision
   when: manual
-  only:
-    - tags
   script:
     - cd infra/civo
     - echo "NODE IP CIDR"; sipcalc -ib ${TF_VAR_node_ip_range}
@@ -42,8 +40,6 @@ civo:k8s:tf_plan:
 civo:k8s:tf_apply:
   stage: provision
   when: manual
-  only:
-    - tags
   script:
     - cd infra/civo
     - echo "NODE IP CIDR"; sipcalc -ib ${TF_VAR_node_ip_range}
@@ -56,8 +52,6 @@ civo:k8s:tf_apply:
 civo:k8s:tf_destroy:
   stage: provision
   when: manual
-  only:
-    - tags
   script:
     - cd infra/civo
     - terraform init
@@ -66,8 +60,6 @@ civo:k8s:tf_destroy:
 gke:k8s:tf_plan:
   stage: provision
   when: manual
-  only:
-    - tags
   script:
     - cd infra/gcp
     - echo "NODE IP CIDR"; sipcalc -ib ${TF_VAR_node_ip_range}
@@ -80,8 +72,6 @@ gke:k8s:tf_plan:
 gke:k8s:tf_apply:
   stage: provision
   when: manual
-  only:
-    - tags
   script:
     - cd infra/gcp
     - echo "NODE IP CIDR"; sipcalc -ib ${TF_VAR_node_ip_range}
@@ -94,8 +84,6 @@ gke:k8s:tf_apply:
 gke:k8s:tf_destroy:
   stage: provision
   when: manual
-  only:
-    - tags
   script:
     - cd infra/gcp
     - terraform init
@@ -130,8 +118,6 @@ gce:tf_destroy_box:
 k8s:create_and_patch_ingress:
   stage: setup
   when: manual
-  only:
-   - tags
   environment:
     name: prod
   script:
@@ -141,8 +127,6 @@ k8s:create_and_patch_ingress:
 k8s:setup_cert_manager:
   stage: setup
   when: manual
-  only:
-   - tags
   environment:
     name: prod
   script:
@@ -200,8 +184,6 @@ gce:setup_certbot:
 k8s:create_secrets:
   stage: setup
   when: manual
-  only:
-   - tags
   environment:
     name: prod
   script:
@@ -211,8 +193,6 @@ k8s:create_secrets:
 k8s:setup_postgres:
   stage: setup
   when: manual
-  only:
-    - tags
   environment:
     name: prod
   script:
@@ -254,8 +234,6 @@ gce:deploy_nginx_conf_to_box:
 
 k8s:deploy_and_test_ingress:
   stage: test
-  # only:
-  #   - tags
   when: manual
   environment:
     name: staging
@@ -264,8 +242,6 @@ k8s:deploy_and_test_ingress:
 
 k8s:delete_test_deploy:
   stage: test
-  # only:
-  #   - tags
   when: manual
   environment:
     name: prod
