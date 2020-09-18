@@ -101,7 +101,7 @@ else:
             'NAME': 'ahins',
             'USER': 'ahins',
             'PASSWORD': 'example',
-            'HOST': 'postgres',
+            'HOST': 'postgres-ahins',
             'PORT': 5432
         }
     }
