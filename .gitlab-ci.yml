@@ -1,7 +1,7 @@
 # This file is a template, and might need editing before it works on your project.
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/python
-image: registry.gitlab.com/ishankhare07/base-builder:0.2.0
+image: registry.gitlab.com/ishankhare07/base-builder:0.2.1
 
 stages:
   - provision
@@ -16,13 +16,20 @@ services:
 variables:
   REGISTRY_URL: "$CI_REGISTRY/ishankhare07"
 
-tf_plan:
+before_script:
+  # - eval $(ssh-agent)
+  # - chmod 0600 /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
+  # - ssh-add -k /builds/ishankhare07/ahins.tmp/CI_SSH_KEY
+  # login to docker
+  # - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- "docker login registry.gitlab.com -u ishankhare07 -p ${DOCKER_REGISTRY_PASSWORD}"
+  # copy civo terraform plugin to the infra/civo/.terraform/plugins directory
+  - cp -r /terraform-provider-civo infra/civo/
+
+civo:k8s:tf_plan:
   stage: provision
   when: manual
-  only:
-    - tags
   script:
-    - cd infra
+    - cd infra/civo
     - echo "NODE IP CIDR"; sipcalc -ib ${TF_VAR_node_ip_range}
     - echo "POD IP CIDR"; sipcalc -ib ${TF_VAR_pod_ip_range}
     - echo "SERVICE IP CIDR"; sipcalc -ib ${TF_VAR_service_ip_range}
@@ -30,13 +37,11 @@ tf_plan:
     - terraform validate
     - terraform plan
 
-tf_apply:
+civo:k8s:tf_apply:
   stage: provision
   when: manual
-  only:
-    - tags
   script:
-    - cd infra
+    - cd infra/civo
     - echo "NODE IP CIDR"; sipcalc -ib ${TF_VAR_node_ip_range}
     - echo "POD IP CIDR"; sipcalc -ib ${TF_VAR_pod_ip_range}
     - echo "SERVICE IP CIDR"; sipcalc -ib ${TF_VAR_service_ip_range}
@@ -44,87 +49,223 @@ tf_apply:
     - terraform plan
     - terraform apply --auto-approve
 
-tf_destroy:
+civo:k8s:tf_destroy:
   stage: provision
   when: manual
-  only:
-    - tags
   script:
-    - cd infra
+    - cd infra/civo
     - terraform init
     - terraform destroy --auto-approve
 
-create_and_patch_ingress:
-  stage: setup
+gke:k8s:tf_plan:
+  stage: provision
   when: manual
-  only:
-    - tags
-  environment:
-    name: deploy
   script:
-    - make create_ingress_gcp patch_ingress_service
+    - cd infra/gcp
+    - echo "NODE IP CIDR"; sipcalc -ib ${TF_VAR_node_ip_range}
+    - echo "POD IP CIDR"; sipcalc -ib ${TF_VAR_pod_ip_range}
+    - echo "SERVICE IP CIDR"; sipcalc -ib ${TF_VAR_service_ip_range}
+    - terraform init
+    - terraform validate
+    - terraform plan
 
-setup_cert_manager:
+gke:k8s:tf_apply:
+  stage: provision
+  when: manual
+  script:
+    - cd infra/gcp
+    - echo "NODE IP CIDR"; sipcalc -ib ${TF_VAR_node_ip_range}
+    - echo "POD IP CIDR"; sipcalc -ib ${TF_VAR_pod_ip_range}
+    - echo "SERVICE IP CIDR"; sipcalc -ib ${TF_VAR_service_ip_range}
+    - terraform init
+    - terraform plan
+    - terraform apply --auto-approve
+
+gke:k8s:tf_destroy:
+  stage: provision
+  when: manual
+  script:
+    - cd infra/gcp
+    - terraform init
+    - terraform destroy --auto-approve
+
+gce:tf_plan_box:
+  stage: provision
+  when: manual
+  script:
+    - cd infra-box
+    - terraform init
+    - terraform validate
+    - terraform plan
+
+gce:tf_apply_box:
+  stage: provision
+  when: manual
+  script:
+    - cd infra-box
+    - terraform init
+    - terraform validate
+    - terraform apply --auto-approve
+
+gce:tf_destroy_box:
+  stage: provision
+  when: manual
+  script:
+    - cd infra-box
+    - terraform init
+    - terraform destroy --auto-approve
+
+k8s:create_and_patch_ingress:
   stage: setup
   when: manual
-  only:
-    - tags
   environment:
-    name: deploy
+    name: prod
+  script:
+    - make create_ingress_gcp 
+    #- make patch_ingress_service
+
+k8s:setup_cert_manager:
+  stage: setup
+  when: manual
+  environment:
+    name: prod
   script:
     - make install_cert_manager
 
-create_secrets:
-  stage: setup
-  when: manual
-  only:
-    - tags
-  environment:
-    name: deploy
-  script:
-    - echo ${IMAGE_PULL_SECRET} | base64 -d | kubectl apply -f -
-    - echo ${BUCKET_SECRET} | base64 -d | kubectl apply -f -
-
-build_and_push_to_registry:
+docker:build_and_push_to_registry:
   stage: build
   only:
-    - tags
+   - tags
+  # when: manual
   environment:
-    name: deploy
+    name: prod
   script:
     - echo "registry url ${CI_REGISTRY}"
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -f ./code/Dockerfile ./code -t "${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod"
     - docker push "${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod"
 
-
-deploy_and_test_ingress:
-  stage: test
-  only:
+docker:build_and_push_to_registry_any_branch:
+  stage: build
+  except:
     - tags
+  # when: manual
+  environment:
+    name: prod
+  script:
+    - echo "registry url ${CI_REGISTRY}"
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -f ./code/Dockerfile ./code -t "${REGISTRY_URL}/ahins:${CI_COMMIT_SHORT_SHA}.prod"
+    - docker push "${REGISTRY_URL}/ahins:${CI_COMMIT_SHORT_SHA}.prod"
+
+gce:setup_docker:
+  stage: setup
+  except:
+    - tags
+  when: manual
+  environment:
+    name: prod
+  script:
+    - scp -o StrictHostKeyChecking=no ./post_ssh/setup_docker.sh ${VM_HOST_AND_IP}:~/
+    - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- 'chmod +x setup_docker.sh; ./setup_docker.sh'
+    - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- 'docker run hello-world'
+
+gce:setup_certbot:
+  stage: setup
+  except:
+    - tags
+  when: manual
+  environment:
+    name: prod
+  script:
+    - scp -o StrictHostKeyChecking=no ./post_ssh/setup_certbot.sh ${VM_HOST_AND_IP}:~/
+    - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- 'chmod +x setup_certbot.sh; ./setup_certbot.sh'
+
+k8s:create_secrets:
+  stage: setup
+  when: manual
+  environment:
+    name: prod
+  script:
+    - echo ${IMAGE_PULL_SECRET} | base64 -d | kubectl apply -f -
+    - echo ${BUCKET_SECRET} | base64 -d | kubectl apply -f -
+
+k8s:setup_postgres:
+  stage: setup
+  when: manual
+  environment:
+    name: prod
+  script:
+    - helm repo add bitnami https://charts.bitnami.com/bitnami
+    - helm install -f overrides/postgres.yaml --set global.postgresql.postgresqlPassword=${POSTGRESQL_PASSWORD} postgres bitnami/postgresql
+
+gce:create_secrets:
+  stage: setup
+  when: manual
+  # only:
+  #  - tags
+  environment:
+    name: prod
+  script:
+    #- echo ${IMAGE_PULL_SECRET} | base64 -d | kubectl apply -f -
+    #- echo ${BUCKET_SECRET} | base64 -d | kubectl apply -f -
+    - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- "mkdir -p secrets;touch secrets/bucket-secrets.json"
+    - scp -o StrictHostKeyChecking=no /builds/ishankhare07/ahins.tmp/BUCKET_SECRET_RAW ${VM_HOST_AND_IP}:~/secrets/bucket-secrets.raw
+    - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- "base64 -d secrets/bucket-secrets.raw > secrets/bucket-secrets.json"
+
+gce:deploy_to_box:
+  stage: deploy
+  when: manual
+  environment:
+    name: prod
+  script:
+    - helm template ./docker --set dockerImage="${REGISTRY_URL}/ahins:${CI_COMMIT_SHORT_SHA}.prod" > docker-compose.yaml
+    - scp -o StrictHostKeyChecking=no ./docker-compose.yaml ${VM_HOST_AND_IP}:~/
+    - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- "docker-compose stop; docker-compose up -d django"
+
+gce:deploy_nginx_conf_to_box:
+  stage: deploy
+  when: manual
+  environment:
+    name: prod
+  script:
+    - scp -o StrictHostKeyChecking=no ./nginx/prod.conf ${VM_HOST_AND_IP}:~/ishankhare.dev.conf
+    - ssh -o StrictHostKeyChecking=no ${VM_HOST_AND_IP} -- "sudo cp ~/ishankhare.dev.conf /etc/nginx/conf.d/ishankhare.dev.conf; sudo /etc/init.d/nginx reload"
+
+k8s:deploy_and_test_ingress:
+  stage: test
   when: manual
   environment:
     name: staging
   script:
     - make create_echo_service_with_ingress_rule
 
-delete_test_deploy:
+k8s:delete_test_deploy:
   stage: test
-  only:
-    - tags
   when: manual
   environment:
-    name: deploy
+    name: prod
   script:
     - make remove_echo_service_ingress
 
-create_deploy_in_k8s:
+k8s:create_deploy_in_k8s:
   stage: deploy
   environment:
-    name: deploy
+    name: prod
   only:
     - tags
   # when: manual
   script:
     - helm template ./helm_chart --set dockerImage=${REGISTRY_URL}/ahins:${CI_COMMIT_TAG}.prod --set isProduction=true | kubectl apply -f -
+    - kubectl get deploy
+
+k8s:create_deploy_in_k8s_any_branch:
+  stage: deploy
+  environment:
+    name: staging
+  # only:
+  # - develop
+  # when: manual
+  script:
+    - helm template ./helm_chart --set dockerImage=${REGISTRY_URL}/ahins:${CI_COMMIT_SHORT_SHA}.prod --set isProduction=false | kubectl apply -f -
     - kubectl get deploy

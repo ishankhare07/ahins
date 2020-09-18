@@ -2,6 +2,6 @@ from django.conf.urls import url
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-        url(r'^login/$', auth_views.login, name="login", kwargs={'redirect_authenticated_user': True}),
-        url(r'^logout/$', auth_views.logout, name="logout")
+        url(r'^login/$', auth_views.LoginView.as_view(template_name='registration/login.html'), name="login"),
+        url(r'^logout/$', auth_views.LogoutView.as_view(next_page='/'), name="logout")
         ]

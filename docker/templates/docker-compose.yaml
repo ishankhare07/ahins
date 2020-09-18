@@ -1,0 +1,55 @@
+version: '3.1'
+services:
+    nginx-prod:
+        image: registry.gitlab.com/ishankhare07/ahins/nginx:v0.4.1.prod
+        # image: nginx:1.13.7
+        container_name: ahins-nginx-prod
+        ports:
+            - 80:80
+            - 443:443
+        volumes:
+            - ./code/mysite/static:/resources/static
+            - ~/media:/resources/media
+            - /etc/letsencrypt/archive/ishankhare.com:/certs
+        depends_on:
+            - django
+        networks:
+            ahins:
+                aliases:
+                    - nginxprod
+    db:
+        image: postgres:10.1
+        container_name: ahins-pg
+        environment:
+            - POSTGRES_PASSWORD=example
+            - POSTGRES_USER=ahins
+            - POSTGRES_DB=ahins
+        ports:
+            - 5432:5432
+        volumes:
+            - ./db/config:/etc/postgresql
+            - ./db/log:/var/log/postgresql
+            - ./db/databases:/var/lib/postgresql
+        networks:
+            ahins:
+                aliases:
+                    - postgres
+    django:
+        image: {{ .Values.dockerImage }}
+        container_name: ahins-prod
+        working_dir: /code/mysite
+        depends_on:
+            - db
+        environment:
+            - IS_CONTAINER=True
+        command: gunicorn -c gunicorn_config.py mysite.wsgi:application
+        ports:
+            - 8080:80
+        volumes:
+            - $HOME/secrets:/secrets
+        networks:
+            ahins:
+                aliases:
+                    - djangoprod
+networks:
+    ahins:
