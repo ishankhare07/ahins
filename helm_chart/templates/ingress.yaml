@@ -1,11 +1,7 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  {{ if .Values.isProduction -}}
-    name: ahins-ingress
-  {{- else -}}
-    name: ahins-ingress-staging
-  {{- end }}
+  name: ahins-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/upstream-vhost: ishankhare.com
@@ -13,19 +9,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      {{ if .Values.isProduction -}}
       - ishankhare.dev
-      secretName: ahins-prod
-      {{- else -}}
-      - staging.ishankhare.dev
       secretName: ahins-staging
-      {{- end }}
   rules:
-    {{ if .Values.isProduction -}}
     - host: ishankhare.dev
-    {{- else -}}
-    - host: staging.ishankhare.dev
-    {{- end }}
       http:
         paths:
           - path: /
@@ -37,11 +24,7 @@ spec:
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  {{ if .Values.isProduction -}}
-    name: ahins-gcs-ingress
-  {{- else -}}
-name: ahins-gcs-ingress-staging
-  {{- end }}
+  name: ahins-gcs-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
@@ -51,19 +34,10 @@ name: ahins-gcs-ingress-staging
 spec:
   tls:
     - hosts:
-      {{ if .Values.isProduction -}}
       - ishankhare.dev
-      secretName: ahins-prod
-      {{- else -}}
-      - staging.ishankhare.dev
       secretName: ahins-staging
-      {{- end }}
   rules:
-    {{ if .Values.isProduction -}}
     - host: ishankhare.dev
-    {{- else -}}
-    - host: staging.ishankhare.dev
-    {{- end }}
       http:
         paths:
           - path: /media(/.+)
