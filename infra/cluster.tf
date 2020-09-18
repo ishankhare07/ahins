@@ -42,7 +42,7 @@ resource "google_container_node_pool" "primary" {
   node_count = 1
 
   node_config {
-    machine_type = "e2-small"
+    machine_type = "e2-micro"
     disk_size_gb = "10"
     image_type   = "cos_containerd"
 

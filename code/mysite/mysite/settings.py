@@ -59,6 +59,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'mysite.urls'
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/login'
 
 TEMPLATES = [
     {
@@ -89,8 +90,8 @@ if os.environ.get('IS_CONTAINER'):
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'ahins',
             'USER': 'ahins',
-            'PASSWORD': 'example',
-            'HOST': 'postgres-ahins',
+            'PASSWORD': 'chromiumcr47',
+            'HOST': '10.102.97.3',
             'PORT': 5432
         }
     }
@@ -101,7 +102,7 @@ else:
             'NAME': 'ahins',
             'USER': 'ahins',
             'PASSWORD': 'example',
-            'HOST': 'postgres-ahins',
+            'HOST': 'postgres',
             'PORT': 5432
         }
     }
