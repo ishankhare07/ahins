@@ -1,0 +1,7 @@
+global:
+    postgresql:
+        postgresqlDatabase: ahins
+        postgresqlUsername: ahins
+nameOverride: ahins
+
+    
