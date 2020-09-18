@@ -28,6 +28,8 @@ before_script:
 civo:k8s:tf_plan:
   stage: provision
   when: manual
+  only:
+    - tags
   script:
     - cd infra/civo
     - echo "NODE IP CIDR"; sipcalc -ib ${TF_VAR_node_ip_range}
@@ -40,6 +42,8 @@ civo:k8s:tf_plan:
 civo:k8s:tf_apply:
   stage: provision
   when: manual
+  only:
+    - tags
   script:
     - cd infra/civo
     - echo "NODE IP CIDR"; sipcalc -ib ${TF_VAR_node_ip_range}
@@ -52,6 +56,8 @@ civo:k8s:tf_apply:
 civo:k8s:tf_destroy:
   stage: provision
   when: manual
+  only:
+    - tags
   script:
     - cd infra/civo
     - terraform init
@@ -247,6 +253,8 @@ k8s:setup_postgres:
 k8s:deploy_and_test_ingress:
   stage: test
   when: manual
+  only:
+    - tags
   environment:
     name: staging
   script:
@@ -255,6 +263,8 @@ k8s:deploy_and_test_ingress:
 k8s:delete_test_deploy:
   stage: test
   when: manual
+  only:
+    - tags
   environment:
     name: prod
   script:
