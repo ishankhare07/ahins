@@ -5,7 +5,7 @@ cffi==1.14.2
 chardet==3.0.4
 Django==3.1
 django-storages==1.9.1
-djangorestframework==3.11.1
+djangorestframework==3.12.2
 google-api-core==1.22.1
 google-auth==1.21.0
 google-cloud-core==1.4.1
