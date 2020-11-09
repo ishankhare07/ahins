@@ -2,6 +2,7 @@ global:
     postgresql:
         postgresqlDatabase: ahins
         postgresqlUsername: ahins
+    storageClass: longhorn
 nameOverride: ahins
 
     
