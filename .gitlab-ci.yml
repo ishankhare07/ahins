@@ -213,6 +213,22 @@ k8s:setup_postgres:
     - helm repo add bitnami https://charts.bitnami.com/bitnami
     - helm install -f overrides/postgres.yaml --set global.postgresql.postgresqlPassword=${POSTGRESQL_PASSWORD} postgres bitnami/postgresql
 
+k8s:prometheus_install:
+  stage: setup
+  when: manual
+  environment:
+    name: prod
+  script:
+    - make install_prometheus
+
+k8s:prometheus_uninstall:
+  stage: setup
+  when: manual
+  environment:
+    name: prod
+  script:
+    - make remove_prometheus
+
 # gce:create_secrets:
 #   stage: setup
 #   when: manual

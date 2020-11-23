@@ -25,6 +25,11 @@ create_echo_service_with_ingress_rule:
 
 nginx_controller_pod = $(shell kubectl get pods -n ingress-nginx --no-headers | grep 'nginx-controller' | cut -d' ' -f1)
 
+install_prometheus:
+	helm install prometheus-operator stable/prometheus-operator --namespace monitor
+remove_prometheus:
+	helm uninstall prometheus-operator --namespace monitor
+
 test_ingress_service:
 	kubectl exec -it -n ingress-nginx $(nginx_controller_pod) -- curl http-echo-service.default.svc.cluster.local:5678
 
