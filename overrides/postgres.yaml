@@ -4,5 +4,8 @@ global:
         postgresqlUsername: ahins
     storageClass: longhorn
 nameOverride: ahins
+resources:
+  requests:
+    cpu: 150m
 
     
