@@ -127,7 +127,8 @@ k8s:create_and_patch_ingress:
   only:
     - tags
   environment:
-    name: prod
+    # name: prod
+    name: production
   script:
     - make create_ingress_gcp 
     #- make patch_ingress_service
@@ -138,7 +139,8 @@ k8s:setup_cert_manager:
   only:
     - tags
   environment:
-    name: prod
+    # name: prod
+    name: production
   script:
     - make install_cert_manager
 
@@ -148,7 +150,8 @@ docker:build_and_push_to_registry:
    - tags
   # when: manual
   environment:
-    name: prod
+    # name: prod
+    name: production
   script:
     - echo "registry url ${CI_REGISTRY}"
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
@@ -197,7 +200,8 @@ k8s:create_secrets:
   only:
     - tags
   environment:
-    name: prod
+    # name: prod
+    name: production
   script:
     - echo ${IMAGE_PULL_SECRET} | base64 -d | kubectl apply -f -
     - echo ${BUCKET_SECRET} | base64 -d | kubectl apply -f -
@@ -208,7 +212,8 @@ k8s:setup_postgres:
   only:
     - tags
   environment:
-    name: prod
+    # name: prod
+    name: production
   script:
     - helm repo add bitnami https://charts.bitnami.com/bitnami
     - helm install -f overrides/postgres.yaml --set global.postgresql.postgresqlPassword=${POSTGRESQL_PASSWORD} postgres bitnami/postgresql
@@ -217,7 +222,8 @@ k8s:prometheus_install:
   stage: setup
   when: manual
   environment:
-    name: prod
+    # name: prod
+    name: production
   script:
     - make install_prometheus
 
@@ -225,7 +231,8 @@ k8s:prometheus_uninstall:
   stage: setup
   when: manual
   environment:
-    name: prod
+    # name: prod
+    name: production
   script:
     - make remove_prometheus
 
@@ -282,14 +289,16 @@ k8s:delete_test_deploy:
   only:
     - tags
   environment:
-    name: prod
+    # name: prod
+    name: production
   script:
     - make remove_echo_service_ingress
 
 k8s:create_deploy_in_k8s:
   stage: deploy
   environment:
-    name: prod
+    # name: prod
+    name: production
   only:
     - tags
   # when: manual
