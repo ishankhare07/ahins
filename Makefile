@@ -25,6 +25,22 @@ create_echo_service_with_ingress_rule:
 
 nginx_controller_pod = $(shell kubectl get pods -n ingress-nginx --no-headers | grep 'nginx-controller' | cut -d' ' -f1)
 
+install_prometheus:
+	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+	helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitor --create-namespace
+remove_prometheus:
+	helm uninstall prometheus --namespace monitor
+	# delete CRD created by the kube-promentheus-stack chart
+	# these are not delete by default
+	kubectl delete crd alertmanagerconfigs.monitoring.coreos.com
+	kubectl delete crd alertmanagers.monitoring.coreos.com
+	kubectl delete crd podmonitors.monitoring.coreos.com
+	kubectl delete crd probes.monitoring.coreos.com
+	kubectl delete crd prometheuses.monitoring.coreos.com
+	kubectl delete crd prometheusrules.monitoring.coreos.com
+	kubectl delete crd servicemonitors.monitoring.coreos.com
+	kubectl delete crd thanosrulers.monitoring.coreos.com
+
 test_ingress_service:
 	kubectl exec -it -n ingress-nginx $(nginx_controller_pod) -- curl http-echo-service.default.svc.cluster.local:5678
 
