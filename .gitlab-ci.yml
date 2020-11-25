@@ -133,6 +133,18 @@ k8s:create_and_patch_ingress:
     - make create_ingress_gcp 
     #- make patch_ingress_service
 
+k8s:setup_longhorn:
+  stage: setup
+  when: manual
+  only:
+    - tags
+  environment:
+    name: production
+  script:
+    - helm repo add longhorn https://charts.longhorn.io
+    - helm repo update
+    - helm install longhorn longhorn/longhorn --namespace longhorn-system --create-namespace
+
 k8s:setup_cert_manager:
   stage: setup
   when: manual
@@ -224,6 +236,8 @@ k8s:prometheus_install:
   environment:
     # name: prod
     name: production
+  only:
+    - tags
   script:
     - make install_prometheus
 
@@ -233,6 +247,8 @@ k8s:prometheus_uninstall:
   environment:
     # name: prod
     name: production
+  only:
+    - tags
   script:
     - make remove_prometheus
 
@@ -279,7 +295,8 @@ k8s:deploy_and_test_ingress:
   only:
     - tags
   environment:
-    name: staging
+    # name: staging
+    name: production
   script:
     - make create_echo_service_with_ingress_rule
 
