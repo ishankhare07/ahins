@@ -1,11 +1,12 @@
 global:
     postgresql:
-        postgresqlDatabase: ahins
+        postgresqlDatabase: postgres
         postgresqlUsername: ahins
     storageClass: longhorn
 nameOverride: ahins
+postgresqlUsername: postgres
 resources:
   requests:
-    cpu: 150m
+    cpu: 100m
 
     
