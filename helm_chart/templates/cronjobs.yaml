@@ -1,0 +1,39 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: data-backer
+  namespace: default
+spec:
+  schedule: "0 7 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: pg-to-gcs-backup
+              env:
+                - name: GOOGLE_APPLICATION_CREDENTIALS
+                  value: "/etc/gcs/bucket-secrets.json"
+              image: registry.gitlab.com/ishankhare07/data-backer:0.2.6.prod
+              command: ["data-backer"]
+              args:
+                - "backup"
+                - "--host"
+                - "postgres-ahins"
+                - "-u"
+                - "ahins"
+                - "-d"
+                - "ahins"
+                - "-p"
+                - "tonal-baton-181908"
+                - "-b"
+                - "ahins"
+              volumeMounts:
+                - name: google-api-creds
+                  mountPath: "/etc/gcs/"
+                  readOnly: true
+          volumes:
+            - name: google-api-creds
+              secret:
+                secretName: bucket-secret
